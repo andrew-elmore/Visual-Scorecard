@@ -1,7 +1,32 @@
 import React, { useReducer, useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
+// import {airtable} from '../api/airtable'
+import Map from './../component/map'
 
+var Airtable = require('airtable');
+export const base = new Airtable({ apiKey: 'keyHyLPdaCbr7AoxH' }).base('appcMdRfjvZEs0zeX');
 
+const recordResults = (score, shots) => {
+    console.log(Date.now())
+    console.log(score)
+    base('scores').create([
+        {
+            "fields": {
+                "date": JSON.stringify(Date.now()),
+                "score": JSON.stringify(score),
+                "shots": JSON.stringify(shots)
+            }
+        },
+    ], function (err, records) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        records.forEach(function (record) {
+            console.log(record.getId());
+        });
+    });
+}
 
 const recordScore = (score, hole, setScore) => {
     Object.freeze(score)
@@ -32,6 +57,7 @@ const makeStroke = (score, hole, setScore, shots, setShots) => {
     );
 
     recordScore(score, hole, setScore)
+    // recordResults(score)
 }
 
 const endHole = (score, hole, setHole, setScore, shots, setShots) =>{
@@ -45,7 +71,7 @@ const CasualScreen = () => {
     const [score, setScore] = useState({'1': 0})
     const [shots, setShots] = useState({})
     const [hole, setHole] = useState(1)
-    
+
     let scores = Object.entries(score)
     return (
         <View>
@@ -61,6 +87,13 @@ const CasualScreen = () => {
                     makeStroke(score, hole, setScore, shots, setShots)
                 }}
             />
+            <Button
+                title='save'
+                onPress={() => { 
+                    recordResults(score, shots)
+                }}
+            />
+            <Map shots={shots}/>
             <FlatList
                 keyExtractor={score => score.toString()}
                 data={scores}
