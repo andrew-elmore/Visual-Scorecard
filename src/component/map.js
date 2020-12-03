@@ -11,6 +11,18 @@ const Map = (props) => {
         }
     );
 
+    let shots = []
+
+    Object.values(props.shots).forEach((hole) => {
+        holeShots = []
+        hole.forEach((shot) => {
+            holeShots.push({ longitude: shot.coords.longitude, latitude: shot.coords.latitude })
+        })
+        shots.push(holeShots)
+    })
+    // console.log(`~~~~~~~~~~~~`)
+    // console.log(shots)
+
 
     return (
         <MapView 
@@ -22,7 +34,9 @@ const Map = (props) => {
                 longitudeDelta: 0.01
             }}
         >
-            {/* <Polyline coordinates={points}></Polyline> */}
+            {shots.forEach((hole)=> {
+                return <Polyline coordinates={hole}></Polyline>
+            })}
         </MapView>
     )
 }

@@ -49,6 +49,8 @@ const recordShots = (shots, setShots, hole, pos) => {
     setShots(newShots)
 }
 
+
+
 const makeStroke = (score, hole, setScore, shots, setShots) => {
     navigator.geolocation.getCurrentPosition(
         pos => {
