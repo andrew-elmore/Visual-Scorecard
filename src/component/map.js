@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
-import MapView, {Polyline} from 'react-native-maps'
+import MapView, { Polyline, Marker} from 'react-native-maps'
 
 const Map = (props) => {
     const [mapCenter, setMapCenter] = useState([0, 0])
@@ -34,6 +34,9 @@ const Map = (props) => {
                 longitudeDelta: 0.01
             }}
         >
+            <Marker 
+                coordinate={props.currentPos}
+            />
             {shots.forEach((hole)=> {
                 return <Polyline coordinates={hole}></Polyline>
             })}

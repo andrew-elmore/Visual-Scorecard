@@ -1,32 +1,30 @@
 import React, { useReducer, useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
-// import {airtable} from '../api/airtable'
+import {recordResults} from '../api/airtable'
 import Map from './../component/map'
 
-var Airtable = require('airtable');
-export const base = new Airtable({ apiKey: 'keyHyLPdaCbr7AoxH' }).base('appcMdRfjvZEs0zeX');
+// var Airtable = require('airtable');
+// export const base = new Airtable({ apiKey: 'keyHyLPdaCbr7AoxH' }).base('appcMdRfjvZEs0zeX');
 
-const recordResults = (score, shots) => {
-    console.log(Date.now())
-    console.log(score)
-    base('scores').create([
-        {
-            "fields": {
-                "date": JSON.stringify(Date.now()),
-                "score": JSON.stringify(score),
-                "shots": JSON.stringify(shots)
-            }
-        },
-    ], function (err, records) {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        records.forEach(function (record) {
-            console.log(record.getId());
-        });
-    });
-}
+// const recordResults = (score, shots) => {
+//     base('scores').create([
+//         {
+//             "fields": {
+//                 "date": JSON.stringify(Date.now()),
+//                 "score": JSON.stringify(score),
+//                 "shots": JSON.stringify(shots)
+//             }
+//         },
+//     ], function (err, records) {
+//         if (err) {
+//             console.error(err);
+//             return;
+//         }
+//         records.forEach(function (record) {
+//             console.log(record.getId());
+//         });
+//     });
+// }
 
 const recordScore = (score, hole, setScore) => {
     Object.freeze(score)
@@ -67,12 +65,28 @@ const endHole = (score, hole, setHole, setScore, shots, setShots) =>{
     setHole(hole + 1)
 }
 
+const setLoc = (setCurrentPos) => {
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+            setCurrentPos({ 
+                latitude: pos.coords.latitude, 
+                longitude: pos.coords.longitude
+            })
+        }
+    );
+}
 
 
-const CasualScreen = () => {
+    
+    const CasualScreen = () => {
     const [score, setScore] = useState({'1': 0})
     const [shots, setShots] = useState({})
     const [hole, setHole] = useState(1)
+    const [currentPos, setCurrentPos] = useState({})
+
+    setTimeout(setLoc, 2000, setCurrentPos);
+    
+    
 
     let scores = Object.entries(score)
     return (
@@ -95,7 +109,7 @@ const CasualScreen = () => {
                     recordResults(score, shots)
                 }}
             />
-            <Map shots={shots}/>
+            <Map shots={shots} currentPos={currentPos}/>
             <FlatList
                 keyExtractor={score => score.toString()}
                 data={scores}
@@ -103,6 +117,7 @@ const CasualScreen = () => {
                     return (<Text>{`${item[0]}:  ${item[1]}`}</Text>)
                 }}
             />
+            <Text>{currentPos.latitude}, {currentPos.longitude}</Text>
         </View>
     )
 }
