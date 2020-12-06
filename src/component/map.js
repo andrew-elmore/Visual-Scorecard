@@ -3,17 +3,8 @@ import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import MapView, { Polyline, Marker} from 'react-native-maps'
 
 const Map = (props) => {
-    const [mapCenter, setMapCenter] = useState([0, 0])
-
-    navigator.geolocation.getCurrentPosition(
-        pos => {
-            setMapCenter([pos.coords.latitude, pos.coords.longitude])
-        }
-    );
-
     let shots = []
 
-    // console.log(props.shots)
     Object.values(props.shots).forEach((hole) => {
         holeShots = []
         hole.forEach((shot) => {
@@ -21,8 +12,6 @@ const Map = (props) => {
         })
         shots.push(holeShots)
     })
-
-
 
     return (
         <MapView 
@@ -34,16 +23,10 @@ const Map = (props) => {
                 longitudeDelta: 0.01
             }}
         >
-            {/* <Marker 
-                coordinate={props.currentPos}
-            /> */}
+
             {shots.map((hole)=> {
                 return <Polyline key={JSON.stringify(hole)} coordinates={hole}></Polyline>
             })}
-           
-                 {/* <Polyline coordinates={shots[0]}></Polyline>
-                 <Polyline coordinates={shots[1]}></Polyline> */}
-
         </MapView>
     )
 }
