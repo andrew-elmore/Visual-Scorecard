@@ -13,6 +13,7 @@ const Map = (props) => {
         shots.push(holeShots)
     })
 
+    console.log(shots)
     return (
         <MapView 
             style={styles.map}
