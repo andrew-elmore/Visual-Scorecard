@@ -57,11 +57,14 @@ const CasualScreen = (props) => {
         updateToLastGame(props.navigation.state.params.previousGame)
     }
 
-    const [gameId, setGameId] = useState(prevGameId)
-    const [score, setScore] = useState(prevScore)
-    const [shots, setShots] = useState(prevShots)
-    const [hole, setHole] = useState(prevHole)
-    const [complete, setComplete] = useState(false)
+
+    const [state, dispatch] = useReducer(reducer, { 
+        gameId: prevGameId, 
+        score: prevScore, 
+        shots: prevShots, 
+        hole: prevHole, 
+        complete: false 
+    })
 
     const endHole = () => {
         makeStroke(score, hole, setScore, shots, setShots)
@@ -84,8 +87,8 @@ const CasualScreen = (props) => {
         <View>
             <Button
                 title='in'
-                onPress={async() => { 
-                    endHole()
+                onPress={() => { 
+                    dispatch({ type: 'endHole' })
                     recordResults(score, shots, complete, gameId, setGameId)
                 }}
             />
@@ -109,10 +112,10 @@ const CasualScreen = (props) => {
                     recordResults(score, shots, complete, gameId, setGameId)
                 }}
             />
-            <Map shots={shots}/>
+            <Map shots={state.shots}/>
             <FlatList
                 keyExtractor={score => score.toString()}
-                data={scores}
+                data={state.scores}
                 renderItem={({ item, index }) => {
                     return (<Text>{`${item[0]}:  ${item[1]}`}</Text>)
                 }}
