@@ -24,51 +24,48 @@ const recordShots = (shots, setShots, hole, pos) => {
     setShots(newShots)
 }
 
-
-
 const makeStroke = (score, hole, setScore, shots, setShots) => {
     navigator.geolocation.getCurrentPosition(
         pos => {
             recordShots(shots, setShots, hole, pos)
         }
     );
-
     recordScore(score, hole, setScore)
-    // recordResults(score)
 }
 
 const endHole = (score, hole, setHole, setScore, shots, setShots) =>{
     makeStroke(score, hole, setScore, shots, setShots)
     setHole(hole + 1)
 }
-
-
-
-
-
     
 const CasualScreen = (props) => {
-    // console.log(props.navigation.state.params.previousGame)
+    let previousGame = false
+
+    const setGame = (res) => {
+        // console.log(res.length)
+        previousGame = (res[0])
+        console.log(previousGame)
+    }
+
+    fetchResults(setGame)
+
+    let prevGameId = false
     let prevScore = { '1': 0 }
     let prevShots = {}
     let prevHole = 1
 
     const updateToLastGame = (game) => {
-        // setScore(game.score)
-        // setShots(game.shots)
-        // setHole(game.hole)
+        prevGameId = game.id
         prevScore = game.score
         prevShots = game.shots
         prevHole = Object.values(game.score).length
-        console.log(prevScore)
-        console.log(prevShots)
-        console.log(prevHole)
     }
 
-    if (props.navigation.state.params.previousGame) {
-        updateToLastGame(props.navigation.state.params.previousGame)
+    if (previousGame) {
+        updateToLastGame(previousGame)
     }
 
+    const [gameId, setGameId] = useState(prevGameId)
     const [score, setScore] = useState(prevScore)
     const [shots, setShots] = useState(prevShots)
     const [hole, setHole] = useState(prevHole)
@@ -96,13 +93,19 @@ const CasualScreen = (props) => {
             <Button
                 title='save'
                 onPress={() => { 
-                    recordResults(score, shots, complete)
+                    recordResults(score, shots, complete, gameId, setGameId)
                 }}
             />
             <Button
                 title='finish'
                 onPress={() => { 
                     setComplete(true)
+                }}
+            />
+            <Button
+                title='Game Id'
+                onPress={() => { 
+                    console.log(gameId)
                 }}
             />
             <Map shots={shots}/>

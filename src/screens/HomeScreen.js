@@ -18,29 +18,36 @@ const HomeScreen = (props) => {
 
     // const [previousGame, setPreviousGame] = useState({})
 
-    let previousGame = {}
+    // let previousGame = {}
 
-    const logRes = (res) => {
-        previousGame = (res[0])
-    }
+    // const setGame = (res) => {
+    //     console.log(res.length)
+    //     previousGame = (res[0])
+    // }
 
-    fetchResults(logRes)
+    // fetchResults(setGame)
 
 
     return (
         <View>
+            {/* <Button
+                title='Resume Last Game Casual Mode'
+                onPress={() => 
+                    props.navigation.navigate('CasualScreen')
+                }
+            /> */}
             <Button
                 title='Resume Last Game Casual Mode'
                 onPress={() => 
                     props.navigation.navigate('CasualScreen', {previousGame: previousGame})
                 }
             />
-            <Button
+            {/* <Button
                 title='Casual Mode'
                 onPress={() => 
                     props.navigation.navigate('CasualScreen', {previousGame: false})
                 }
-            />
+            /> */}
             <Button
                 title='List Results'
                 onPress={() => 
