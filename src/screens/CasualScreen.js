@@ -47,19 +47,34 @@ const endHole = (score, hole, setHole, setScore, shots, setShots) =>{
 
 
     
-const CasualScreen = () => {
-    const [score, setScore] = useState({'1': 0})
-    const [shots, setShots] = useState({ })
-    const [hole, setHole] = useState(1)
-    const [currentPos, setCurrentPos] = useState({latitude: 0, longitude: 0 })
+const CasualScreen = (props) => {
+    // console.log(props.navigation.state.params.previousGame)
+    let prevScore = { '1': 0 }
+    let prevShots = {}
+    let prevHole = 1
+
+    const updateToLastGame = (game) => {
+        // setScore(game.score)
+        // setShots(game.shots)
+        // setHole(game.hole)
+        prevScore = game.score
+        prevShots = game.shots
+        prevHole = Object.values(game.score).length
+        console.log(prevScore)
+        console.log(prevShots)
+        console.log(prevHole)
+    }
+
+    if (props.navigation.state.params.previousGame) {
+        updateToLastGame(props.navigation.state.params.previousGame)
+    }
+
+    const [score, setScore] = useState(prevScore)
+    const [shots, setShots] = useState(prevShots)
+    const [hole, setHole] = useState(prevHole)
     const [complete, setComplete] = useState(false)
 
-    const updateToLastGame = (res) => {
-        setScore(res[0].score)
-        setShots(res[0].shots)
-        setHole(res[0].hole)
-        console.log(res[0])
-    }
+
     
     
 
@@ -90,12 +105,6 @@ const CasualScreen = () => {
                     setComplete(true)
                 }}
             />
-            <Button
-                title='load game'
-                onPress={() => { 
-                    fetchResults(updateToLastGame)
-                }}
-            />
             <Map shots={shots}/>
             <FlatList
                 keyExtractor={score => score.toString()}
@@ -113,3 +122,5 @@ const styles = StyleSheet.create({
 })
 
 export default CasualScreen;
+
+

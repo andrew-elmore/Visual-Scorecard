@@ -10,25 +10,42 @@ const getLoc = () => {
     );
 }
 
-const logRes = (res) =>{
-    console.log('~~~~~~~~~~~~~~~~~~')
-    console.log(res)
-    console.log('~~~~~~~~~~~~~~~~~~')
-}
+
+
+
 
 const HomeScreen = (props) => {
+
+    // const [previousGame, setPreviousGame] = useState({})
+
+    let previousGame = {}
+
+    const logRes = (res) => {
+        previousGame = (res[0])
+    }
+
+    fetchResults(logRes)
 
 
     return (
         <View>
             <Button
+                title='Resume Last Game Casual Mode'
+                onPress={() => 
+                    props.navigation.navigate('CasualScreen', {previousGame: previousGame})
+                }
+            />
+            <Button
                 title='Casual Mode'
-                onPress={() => props.navigation.navigate('CasualScreen')}
+                onPress={() => 
+                    props.navigation.navigate('CasualScreen', {previousGame: false})
+                }
             />
             <Button
                 title='List Results'
                 onPress={() => 
-                    fetchResults(logRes)
+                    // fetchResults(logRes)
+                    console.log(previousGame)
                 }
             />
         </View>
