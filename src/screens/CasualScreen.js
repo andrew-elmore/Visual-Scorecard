@@ -24,31 +24,23 @@ const recordShots = (shots, setShots, hole, pos) => {
     setShots(newShots)
 }
 
-const makeStroke = (score, hole, setScore, shots, setShots) => {
-    navigator.geolocation.getCurrentPosition(
-        pos => {
-            recordShots(shots, setShots, hole, pos)
-        }
-    );
-    recordScore(score, hole, setScore)
-}
+// const makeStroke = (score, hole, setScore, shots, setShots, complete, gameId, setGameId) => {
+//     navigator.geolocation.getCurrentPosition(
+//         pos => {
+//             recordShots(shots, setShots, hole, pos)
+//         }
+//     );
+//     recordScore(score, hole, setScore)
+//     recordResults(score, shots, complete, gameId, setGameId)
+// }
 
-const endHole = (score, hole, setHole, setScore, shots, setShots) =>{
-    makeStroke(score, hole, setScore, shots, setShots)
-    setHole(hole + 1)
-}
+// const endHole = (score, hole, setHole, setScore, shots, setShots, complete, gameId, setGameId) =>{
+//     makeStroke(score, hole, setScore, shots, setShots)
+//     setHole(hole + 1)
+//     recordResults(score, shots, complete, gameId, setGameId)
+// }
     
 const CasualScreen = (props) => {
-    let previousGame = false
-
-    const setGame = (res) => {
-        // console.log(res.length)
-        previousGame = (res[0])
-        console.log(previousGame)
-    }
-
-    fetchResults(setGame)
-
     let prevGameId = false
     let prevScore = { '1': 0 }
     let prevShots = {}
@@ -61,8 +53,8 @@ const CasualScreen = (props) => {
         prevHole = Object.values(game.score).length
     }
 
-    if (previousGame) {
-        updateToLastGame(previousGame)
+    if (props.navigation.state.params.previousGame) {
+        updateToLastGame(props.navigation.state.params.previousGame)
     }
 
     const [gameId, setGameId] = useState(prevGameId)
@@ -71,8 +63,20 @@ const CasualScreen = (props) => {
     const [hole, setHole] = useState(prevHole)
     const [complete, setComplete] = useState(false)
 
-
+    const endHole = () => {
+        makeStroke(score, hole, setScore, shots, setShots)
+        setHole(hole + 1)
+    }
     
+    const makeStroke = () => {
+        navigator.geolocation.getCurrentPosition(
+            pos => {
+                recordShots(shots, setShots, hole, pos)
+            }
+        );
+        recordScore(score, hole, setScore)
+        console.log(score)
+    }
     
 
     let scores = Object.entries(score)
@@ -80,14 +84,16 @@ const CasualScreen = (props) => {
         <View>
             <Button
                 title='in'
-                onPress={() => { 
-                    endHole(score, hole, setHole, setScore, shots, setShots)
+                onPress={async() => { 
+                    endHole()
+                    recordResults(score, shots, complete, gameId, setGameId)
                 }}
             />
             <Button
                 title='stroke'
                 onPress={() => { 
-                    makeStroke(score, hole, setScore, shots, setShots)
+                    makeStroke()
+                    recordResults(score, shots, complete, gameId, setGameId)
                 }}
             />
             <Button
@@ -100,12 +106,7 @@ const CasualScreen = (props) => {
                 title='finish'
                 onPress={() => { 
                     setComplete(true)
-                }}
-            />
-            <Button
-                title='Game Id'
-                onPress={() => { 
-                    console.log(gameId)
+                    recordResults(score, shots, complete, gameId, setGameId)
                 }}
             />
             <Map shots={shots}/>

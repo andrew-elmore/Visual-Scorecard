@@ -46,6 +46,7 @@ export const fetchResults = (handleRes) => {
     }).eachPage(function page(records, fetchNextPage) {
         let res = []
         records.forEach(function (record) {
+            console.log(record.getId())
             res.push({
                 id: record.getId(),
                 date: JSON.parse(record.get('date')),

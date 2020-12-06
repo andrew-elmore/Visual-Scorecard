@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import { fetchResults} from './../api/airtable'
+import { updatePreviousGame, getPreviousGame} from './../game/prevGame'
 
 const getLoc = () => {
     navigator.geolocation.getCurrentPosition(
@@ -16,17 +17,7 @@ const getLoc = () => {
 
 const HomeScreen = (props) => {
 
-    // const [previousGame, setPreviousGame] = useState({})
-
-    // let previousGame = {}
-
-    // const setGame = (res) => {
-    //     console.log(res.length)
-    //     previousGame = (res[0])
-    // }
-
-    // fetchResults(setGame)
-
+    updatePreviousGame()
 
     return (
         <View>
@@ -37,9 +28,11 @@ const HomeScreen = (props) => {
                 }
             /> */}
             <Button
-                title='Resume Last Game Casual Mode'
-                onPress={() => 
-                    props.navigation.navigate('CasualScreen', {previousGame: previousGame})
+                title='Casual Mode'
+                onPress={() => {
+                    updatePreviousGame()
+                    let previousGame = getPreviousGame()
+                    props.navigation.navigate('CasualScreen', {previousGame: previousGame})}
                 }
             />
             {/* <Button
