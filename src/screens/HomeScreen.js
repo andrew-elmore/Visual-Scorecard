@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
+import { fetchResults} from './../api/airtable'
 
 const getLoc = () => {
     navigator.geolocation.getCurrentPosition(
@@ -7,6 +8,12 @@ const getLoc = () => {
             console.log(pos)
         }
     );
+}
+
+const logRes = (res) =>{
+    console.log('~~~~~~~~~~~~~~~~~~')
+    console.log(res)
+    console.log('~~~~~~~~~~~~~~~~~~')
 }
 
 const HomeScreen = (props) => {
@@ -17,6 +24,12 @@ const HomeScreen = (props) => {
             <Button
                 title='Casual Mode'
                 onPress={() => props.navigation.navigate('CasualScreen')}
+            />
+            <Button
+                title='List Results'
+                onPress={() => 
+                    fetchResults(logRes)
+                }
             />
         </View>
     )

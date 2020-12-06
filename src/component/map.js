@@ -13,6 +13,7 @@ const Map = (props) => {
 
     let shots = []
 
+    // console.log(props.shots)
     Object.values(props.shots).forEach((hole) => {
         holeShots = []
         hole.forEach((shot) => {
@@ -20,8 +21,7 @@ const Map = (props) => {
         })
         shots.push(holeShots)
     })
-    // console.log(`~~~~~~~~~~~~`)
-    // console.log(shots)
+
 
 
     return (
@@ -34,12 +34,16 @@ const Map = (props) => {
                 longitudeDelta: 0.01
             }}
         >
-            <Marker 
+            {/* <Marker 
                 coordinate={props.currentPos}
-            />
-            {shots.forEach((hole)=> {
-                return <Polyline coordinates={hole}></Polyline>
+            /> */}
+            {shots.map((hole)=> {
+                return <Polyline key={JSON.stringify(hole)} coordinates={hole}></Polyline>
             })}
+           
+                 {/* <Polyline coordinates={shots[0]}></Polyline>
+                 <Polyline coordinates={shots[1]}></Polyline> */}
+
         </MapView>
     )
 }
