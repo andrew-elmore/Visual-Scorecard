@@ -1,7 +1,7 @@
 var Airtable = require('airtable');
 export const base = new Airtable({ apiKey: 'keyHyLPdaCbr7AoxH' }).base('appcMdRfjvZEs0zeX');
 
-export const createNewGame = (game, setGameId) => {
+export const createNewGame = (game, setNewGameId) => {
     base('scores').create([
         {
             "fields": {
@@ -17,7 +17,7 @@ export const createNewGame = (game, setGameId) => {
             return;
         }
         console.log(`gameId = ${records[0].getId()}`)
-        setGameId(records[0].getId())
+        setNewGameId(records[0].getId())
     });
 }
 

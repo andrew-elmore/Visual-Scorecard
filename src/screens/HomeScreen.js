@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import { createNewGame} from './../api/airtable'
 import { updatePreviousGame, getPreviousGame} from './../game/prevGame'
+import { setNewGameId} from './../game/newGame'
 
 const getLoc = () => {
     navigator.geolocation.getCurrentPosition(
@@ -19,11 +20,6 @@ const newGame = {
     hole: 1
 }
 
-const setGameId = (newId) => {
-    newGame.gameId = newId
-}
-
-
 const HomeScreen = (props) => {
 
     updatePreviousGame()
@@ -38,8 +34,8 @@ const HomeScreen = (props) => {
                     if (previousGame) {
                         props.navigation.navigate('CasualScreen', {previousGame: previousGame})
                     } else {
-                        createNewGame(newGame, setGameId)
-                        props.navigation.navigate('CasualScreen', { previousGame: newGame})
+                        createNewGame(newGame, setNewGameId)
+                        props.navigation.navigate('NewGameScreen')
 
                     }
                 }}
@@ -52,9 +48,12 @@ const HomeScreen = (props) => {
             /> */}
             <Button
                 title='List Results'
-                onPress={() => 
+                onPress={() => {
                     // fetchResults(logRes)
-                    console.log(previousGame)
+                    // console.log(previousGame)
+                    let res =createNewGame(newGame, setGameId)
+                    console.log(res)
+                }
                 }
             />
         </View>

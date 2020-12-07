@@ -27,9 +27,8 @@ const reducer = (state, action) => {
                 currentState.gameId = gameId
             }
             return { ...state, shots: currentState.shots, gameId: currentState.gameId }
-        case 'assignId':
-            currentState.gameId = action.payload
-            return {...state, gameId: currentState.gameId}
+        case 'seeState':
+            console.log(state)
         default:
             return state
     }
@@ -76,7 +75,7 @@ const CasualScreen = (props) => {
             <Button
                 title='seeState'
                 onPress={() => { 
-                    dispatch({ type: 'updateDatabase' })
+                    dispatch({ type: 'seeState' })
                 }}
             />
             <Button
