@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import MapView, { Polyline, Marker} from 'react-native-maps'
 
 const Map = (props) => {
+
     let shots = []
 
     Object.values(props.shots).forEach((hole) => {

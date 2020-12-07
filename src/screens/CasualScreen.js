@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
-import { recordResults, fetchResults} from '../api/airtable'
+import { recordResults} from '../api/airtable'
 import Map from './../component/map'
 
 
@@ -17,18 +17,14 @@ const reducer = (state, action) => {
             currentState.shots[state.hole + 1] = []
             return { ...state, score: currentState.score, shots: currentState.shots , hole: state.hole + 1 }
         case 'finishGame':
-            return { ...state, complete: state.complete }
+            currentState.complete = true
+            recordResults(currentState)
+            return { ...state, complete: true }
         case 'recordShot': // records a shot and updates the database
-            currentState.shots[state.hole].push(action.payload)
-            gameId = recordResults(currentState)
-            console.log('casualScreen:23')
-            console.log(gameId)
-            if (gameId) {
-                currentState.gameId = gameId
-            }
-            return { ...state, shots: currentState.shots, gameId: currentState.gameId }
+            currentState.shots[state.hole].push(action.payload.pos)
+            recordResults(currentState)
+            return { ...state, shots: currentState.shots}
         case 'seeState':
-            console.log(state)
         default:
             return state
     }
@@ -37,9 +33,10 @@ const reducer = (state, action) => {
 const CasualScreen = (props) => {
     let previousGame = props.navigation.state.params.previousGame
 
-    
+    // console.log(previousGame.course)
 
     const [state, dispatch] = useReducer(reducer, { 
+        course: previousGame.course,
         gameId: previousGame.gameId, 
         score: previousGame.score, 
         shots: previousGame.shots, 
@@ -52,7 +49,7 @@ const CasualScreen = (props) => {
         dispatch({ type: 'makeStroke' })
         navigator.geolocation.getCurrentPosition(
             pos => {
-                dispatch({ type: 'recordShot', payload: {pos: pos, gameId: gameId, setGameId: setGameId} })
+                dispatch({ type: 'recordShot', payload: {pos: pos} })
             }
         );
     }
@@ -60,6 +57,7 @@ const CasualScreen = (props) => {
 
     return (
         <View>
+            <Text>{`You are playing at ${state.course}`}</Text>
             <Button
                 title='in'
                 onPress={() => { 
@@ -82,6 +80,7 @@ const CasualScreen = (props) => {
                 title='finish'
                 onPress={() => { 
                     dispatch({ type: 'finishGame' })
+                    props.navigation.navigate('NewGameScreen')
                 }}
             />
             <Map shots={state.shots}/>

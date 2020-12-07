@@ -7,7 +7,6 @@ import { setNewGameId} from './../game/newGame'
 const getLoc = () => {
     navigator.geolocation.getCurrentPosition(
         pos => {
-            console.log(pos)
         }
     );
 }
@@ -40,19 +39,11 @@ const HomeScreen = (props) => {
                     }
                 }}
             />
-            {/* <Button
-                title='Casual Mode'
-                onPress={() => 
-                    props.navigation.navigate('CasualScreen', {previousGame: false})
-                }
-            /> */}
             <Button
                 title='List Results'
                 onPress={() => {
                     // fetchResults(logRes)
-                    // console.log(previousGame)
                     let res =createNewGame(newGame, setGameId)
-                    console.log(res)
                 }
                 }
             />

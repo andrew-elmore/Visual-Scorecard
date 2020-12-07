@@ -16,21 +16,17 @@ export const createNewGame = (game, setNewGameId) => {
             console.error(err);
             return;
         }
-        console.log(`gameId = ${records[0].getId()}`)
         setNewGameId(records[0].getId())
     });
 }
 
 
 export const recordResults = (game) => {
-    console.log('~~~~~~~~~~~~~~~~~~~~~~~')
-    console.log('game:')
-    console.log(game)
         base('scores').update([
             {
                 "id": game.gameId,
                 "fields": {
-                    // "date": 'null',
+                    "course": JSON.stringify(game.course),
                     "score": JSON.stringify(game.score),
                     "shots": JSON.stringify(game.shots),
                     'complete': JSON.stringify(game.complete)
@@ -51,7 +47,6 @@ export const fetchResults = (handleRes) => {
     }).eachPage(function page(records, fetchNextPage) {
         let res = []
         records.forEach(function (record) {
-            console.log(record.getId())
             res.push({
                 id: record.getId(),
                 date: JSON.parse(record.get('date')),
