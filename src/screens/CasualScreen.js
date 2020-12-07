@@ -91,6 +91,11 @@ const CasualScreen = (props) => {
                     return (<Text>{`${item[0]}:  ${item[1]}`}</Text>)
                 }}
             />
+            <Text>Total Score: {
+                Object.values(state.score).reduce((a, b) => {
+                    return a + b
+                })
+            }</Text>
         </View>
     )
 }
