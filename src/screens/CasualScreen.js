@@ -36,7 +36,7 @@ const CasualScreen = (props) => {
     let previousGame = props.navigation.state.params.previousGame
 
 
-    let currentPos = {
+    let currentPos = { //There is a problem here that needs to addressed
         latitude: props.navigation.state.params.currentPos.coords.latitude,
         longitude: props.navigation.state.params.currentPos.coords.longitude
     }
@@ -87,6 +87,12 @@ const CasualScreen = (props) => {
                 onPress={() => { 
                     dispatch({ type: 'finishGame' })
                     props.navigation.navigate('NineteenthHole', { lastGame: state, currentPos: currentPos})
+                }}
+            />
+            <Button
+                title='HomeScreen'
+                onPress={() => { 
+                    props.navigation.navigate('HomeScreen')
                 }}
             />
             <Map shots={state.shots} currentPos={currentPos}/>

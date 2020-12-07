@@ -22,6 +22,8 @@ const newGame = {
 const HomeScreen = (props) => {
 
     updatePreviousGame()
+ 
+    let pg = getPreviousGame()
 
     return (
         <View>
@@ -38,14 +40,6 @@ const HomeScreen = (props) => {
 
                     }
                 }}
-            />
-            <Button
-                title='List Results'
-                onPress={() => {
-                    // fetchResults(logRes)
-                    let res =createNewGame(newGame, setGameId)
-                }
-                }
             />
         </View>
     )

@@ -23,6 +23,12 @@ const NineteenthHole = (props) => {
                     return a + b
                 })
             }</Text>
+            <Button
+                title='HomeScreen'
+                onPress={() => {
+                    props.navigation.navigate('HomeScreen')
+                }}
+            />
         </View>
     )
 }

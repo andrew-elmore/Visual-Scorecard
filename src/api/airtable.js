@@ -2,6 +2,7 @@ var Airtable = require('airtable');
 export const base = new Airtable({ apiKey: 'keyHyLPdaCbr7AoxH' }).base('appcMdRfjvZEs0zeX');
 
 export const createNewGame = (game, setNewGameId) => {
+    console.log('game created')
     base('scores').create([
         {
             "fields": {

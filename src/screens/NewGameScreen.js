@@ -16,13 +16,14 @@ const NewGameScreen = (props) => {
 
     setPos()
 
-    const [course, setCourse] = useState('')
+    const [course, setCourse] = useState('test')
 
     const newGame = {
         gameId: false,
         score: { '1': 0 },
         shots: { '1': [] },
-        hole: 1
+        hole: 1,
+        complete: false
     }
 
     return (
