@@ -1,16 +1,39 @@
 var Airtable = require('airtable');
 export const base = new Airtable({ apiKey: 'keyHyLPdaCbr7AoxH' }).base('appcMdRfjvZEs0zeX');
 
-export const recordResults = (score, shots, complete, gameId, setGameId) => {
-    if (gameId){
+export const createNewGame = (game, setGameId) => {
+    base('scores').create([
+        {
+            "fields": {
+                "date": JSON.stringify(Date.now()),
+                "score": JSON.stringify(game.score),
+                "shots": JSON.stringify(game.shots),
+                'complete': JSON.stringify(game.complete)
+            }
+        },
+    ], function (err, records) {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log(`gameId = ${records[0].getId()}`)
+        setGameId(records[0].getId())
+    });
+}
+
+
+export const recordResults = (game) => {
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~')
+    console.log('game:')
+    console.log(game)
         base('scores').update([
             {
-                "id": gameId,
+                "id": game.gameId,
                 "fields": {
                     // "date": 'null',
-                    "score": JSON.stringify(score),
-                    "shots": JSON.stringify(shots),
-                    'complete': JSON.stringify(complete)
+                    "score": JSON.stringify(game.score),
+                    "shots": JSON.stringify(game.shots),
+                    'complete': JSON.stringify(game.complete)
                 }
             }
         ], function (err, records) {
@@ -19,24 +42,6 @@ export const recordResults = (score, shots, complete, gameId, setGameId) => {
                 return;
             }
         });
-    } else {
-        base('scores').create([
-            {
-                "fields": {
-                    "date": JSON.stringify(Date.now()),
-                    "score": JSON.stringify(score),
-                    "shots": JSON.stringify(shots),
-                    'complete': JSON.stringify(complete)
-                }
-            },
-        ], function (err, records) {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                setGameId(records[0].getId())
-        });
-    }
 }
 
 export const fetchResults = (handleRes) => {

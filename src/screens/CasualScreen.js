@@ -3,104 +3,59 @@ import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import { recordResults, fetchResults} from '../api/airtable'
 import Map from './../component/map'
 
-const recordScore = (score, hole, setScore) => {
-    Object.freeze(score)
-    let newScore = Object.assign({}, score)
-    if(newScore[hole]){
-        newScore[hole] +=1
-    } else {
-        newScore[hole] = 1
-    }
-    setScore (newScore)
-}
 
-const recordShots = (shots, setShots, hole, pos) => {
-    Object.freeze(shots)
-    let newShots = Object.assign({}, shots)
-    if (!newShots[hole]) {
-        newShots[hole] = []
-    }
-    newShots[hole].push(pos)
-    setShots(newShots)
-}
-
-// const makeStroke = (score, hole, setScore, shots, setShots, complete, gameId, setGameId) => {
-//     navigator.geolocation.getCurrentPosition(
-//         pos => {
-//             recordShots(shots, setShots, hole, pos)
-//         }
-//     );
-//     recordScore(score, hole, setScore)
-//     recordResults(score, shots, complete, gameId, setGameId)
-// }
-
-// const endHole = (score, hole, setHole, setScore, shots, setShots, complete, gameId, setGameId) =>{
-//     makeStroke(score, hole, setScore, shots, setShots)
-//     setHole(hole + 1)
-//     recordResults(score, shots, complete, gameId, setGameId)
-// }
 
 const reducer = (state, action) => {
     Object.freeze(state)
     let currentState = Object.assign({}, state)
     switch (action.type) {
-        case 'makeStroke':
+        case 'makeStroke': // carries stroke actions
             currentState.score[state.hole] += 1
             return { ...state, score: currentState.score }
-        case 'endHole':
-            currentState.score[state.hole] += 1
+        case 'endHole': // does not update score or record a shot
             currentState.score[state.hole + 1] = 0
             currentState.shots[state.hole + 1] = []
-            return { ...state, score: currentState.score , hole: state.hole + 1 }
+            return { ...state, score: currentState.score, shots: currentState.shots , hole: state.hole + 1 }
         case 'finishGame':
             return { ...state, complete: state.complete }
-        case 'recordShot':
+        case 'recordShot': // records a shot and updates the database
             currentState.shots[state.hole].push(action.payload)
-            return { ...state, shots: currentState.shots }
+            gameId = recordResults(currentState)
+            console.log('casualScreen:23')
+            console.log(gameId)
+            if (gameId) {
+                currentState.gameId = gameId
+            }
+            return { ...state, shots: currentState.shots, gameId: currentState.gameId }
+        case 'assignId':
+            currentState.gameId = action.payload
+            return {...state, gameId: currentState.gameId}
         default:
             return state
     }
 }
     
 const CasualScreen = (props) => {
-    let prevGameId = false
-    let prevScore = { '1': 0 }
-    let prevShots = {'1': []}
-    let prevHole = 1
+    let previousGame = props.navigation.state.params.previousGame
 
-    // const updateToLastGame = (game) => {
-    //     prevGameId = game.id
-    //     prevScore = game.score
-    //     prevShots = game.shots
-    //     prevHole = Object.values(game.score).length
-    // }
-
-    // if (props.navigation.state.params.previousGame) {
-    //     updateToLastGame(props.navigation.state.params.previousGame)
-    // }
-
+    
 
     const [state, dispatch] = useReducer(reducer, { 
-        gameId: prevGameId, 
-        score: prevScore, 
-        shots: prevShots, 
-        hole: prevHole, 
+        gameId: previousGame.gameId, 
+        score: previousGame.score, 
+        shots: previousGame.shots, 
+        hole: previousGame.hole, 
         complete: false 
     })
 
-
-    const endHole = () => {
-        makeStroke(score, hole, setScore, shots, setShots)
-        setHole(hole + 1)
-    }
     
     const makeStroke = () => {
+        dispatch({ type: 'makeStroke' })
         navigator.geolocation.getCurrentPosition(
             pos => {
-                dispatch({ type: 'recordShot', payload: pos })
+                dispatch({ type: 'recordShot', payload: {pos: pos, gameId: gameId, setGameId: setGameId} })
             }
         );
-        dispatch({ type: 'makeStroke' })        
     }
     
 
@@ -118,12 +73,12 @@ const CasualScreen = (props) => {
                     makeStroke()
                 }}
             />
-            {/* <Button
-                title='save'
+            <Button
+                title='seeState'
                 onPress={() => { 
-                    recordResults(score, shots, complete, gameId, setGameId)
+                    dispatch({ type: 'updateDatabase' })
                 }}
-            /> */}
+            />
             <Button
                 title='finish'
                 onPress={() => { 

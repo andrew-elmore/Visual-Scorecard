@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
-import { fetchResults} from './../api/airtable'
+import { createNewGame} from './../api/airtable'
 import { updatePreviousGame, getPreviousGame} from './../game/prevGame'
 
 const getLoc = () => {
@@ -12,7 +12,16 @@ const getLoc = () => {
 }
 
 
+const newGame = {
+    gameId: false,
+    score: { '1': 0 },
+    shots: { '1': [] },
+    hole: 1
+}
 
+const setGameId = (newId) => {
+    newGame.gameId = newId
+}
 
 
 const HomeScreen = (props) => {
@@ -21,19 +30,19 @@ const HomeScreen = (props) => {
 
     return (
         <View>
-            {/* <Button
-                title='Resume Last Game Casual Mode'
-                onPress={() => 
-                    props.navigation.navigate('CasualScreen')
-                }
-            /> */}
             <Button
                 title='Casual Mode'
                 onPress={() => {
                     updatePreviousGame()
                     let previousGame = getPreviousGame()
-                    props.navigation.navigate('CasualScreen', {previousGame: previousGame})}
-                }
+                    if (previousGame) {
+                        props.navigation.navigate('CasualScreen', {previousGame: previousGame})
+                    } else {
+                        createNewGame(newGame, setGameId)
+                        props.navigation.navigate('CasualScreen', { previousGame: newGame})
+
+                    }
+                }}
             />
             {/* <Button
                 title='Casual Mode'
