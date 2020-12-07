@@ -86,7 +86,7 @@ const CasualScreen = (props) => {
                 title='finish'
                 onPress={() => { 
                     dispatch({ type: 'finishGame' })
-                    props.navigation.navigate('NineteenthHole', {lastGame: state})
+                    props.navigation.navigate('NineteenthHole', { lastGame: state, currentPos: currentPos})
                 }}
             />
             <Map shots={state.shots} currentPos={currentPos}/>

@@ -6,10 +6,6 @@ const NewGameScreen = (props) => {
 
     let currentPos = null
 
-    // const getPos = () => {
-    //     return currentPos
-    // }
-
     const setPos = () => {
         navigator.geolocation.getCurrentPosition(
             pos => {
