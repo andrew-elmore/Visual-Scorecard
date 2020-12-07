@@ -80,12 +80,15 @@ const CasualScreen = (props) => {
                 title='finish'
                 onPress={() => { 
                     dispatch({ type: 'finishGame' })
-                    props.navigation.navigate('NewGameScreen')
+                    props.navigation.navigate('NineteenthHole', {lastGame: state})
                 }}
             />
             <Map shots={state.shots}/>
             <FlatList
-                keyExtractor={score => score.toString()}
+                keyExtractor={score => {
+                    console.log(score)
+                    return score.toString()
+                }}
                 data={Object.entries(state.score)}
                 renderItem={({ item, index }) => {
                     return (<Text>{`${item[0]}:  ${item[1]}`}</Text>)
