@@ -4,10 +4,11 @@ import MapView, { Polyline, Marker} from 'react-native-maps'
 
 const Map = (props) => {
 
+    console.log(props)
     let shots = []
 
     Object.values(props.shots).forEach((hole) => {
-        holeShots = []
+        let holeShots = []
         hole.forEach((shot) => {
             holeShots.push({ longitude: shot.coords.longitude, latitude: shot.coords.latitude })
         })
@@ -18,10 +19,10 @@ const Map = (props) => {
         <MapView 
             style={styles.map}
             initialRegion={{
-                latitude: 41.368350651818126,
-                longitude: -71.9288097819818,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01
+                latitude: props.currentPos.latitude,
+                longitude: props.currentPos.longitude,
+                latitudeDelta: 0.001,
+                longitudeDelta: 0.001
             }}
         >
 

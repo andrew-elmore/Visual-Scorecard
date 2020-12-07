@@ -29,11 +29,17 @@ const reducer = (state, action) => {
             return state
     }
 }
+
+
     
 const CasualScreen = (props) => {
     let previousGame = props.navigation.state.params.previousGame
 
-    // console.log(previousGame.course)
+
+    let currentPos = {
+        latitude: props.navigation.state.params.currentPos.coords.latitude,
+        longitude: props.navigation.state.params.currentPos.coords.longitude
+    }
 
     const [state, dispatch] = useReducer(reducer, { 
         course: previousGame.course,
@@ -83,11 +89,10 @@ const CasualScreen = (props) => {
                     props.navigation.navigate('NineteenthHole', {lastGame: state})
                 }}
             />
-            <Map shots={state.shots}/>
+            <Map shots={state.shots} currentPos={currentPos}/>
             <FlatList
                 keyExtractor={score => {
-                    console.log(score)
-                    return score.toString()
+                    return score[0].toString()
                 }}
                 data={Object.entries(state.score)}
                 renderItem={({ item, index }) => {
