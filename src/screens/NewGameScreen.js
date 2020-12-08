@@ -1,30 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import { Text, View, StyleSheet, Button, FlatList, TextInput } from 'react-native';
-import { fetchNewGameId } from './../game/newGame'
+import { fetchNewGameId } from '../game/newGame';
+import { updateGameDetails, fetchGameDetails } from './../api/scores'
 
 const NewGameScreen = (props) => {
-
-    let currentPos = null
-
-    const setPos = () => {
-        navigator.geolocation.getCurrentPosition(
-            pos => {
-                currentPos = pos
-            }
-        );
-    }
-
-    setPos()
-
+    const gameId = props.navigation.state.params.gameId
     const [course, setCourse] = useState('test')
-
-    const newGame = {
-        gameId: false,
-        score: { '1': 0 },
-        shots: { '1': [] },
-        hole: 1,
-        complete: false
-    }
 
     return (
         <View>
@@ -37,12 +18,21 @@ const NewGameScreen = (props) => {
             />
             <Text>{`You are playing at ${course}`}</Text>
             <Button
-                title='Casual Mode'
-                onPress={() => {
-                    if (course != ''){
-                        newGame.gameId = fetchNewGameId()
-                        props.navigation.navigate('CasualScreen', { previousGame: {...newGame, course: course}, currentPos: currentPos })
-                    }
+                title='See State'
+                onPress={async() => {
+                    const game = await fetchGameDetails(gameId)
+                    console.log('See gameId: ', game.id)
+                }}
+            />
+            <Button
+                title='Create Game B'
+                onPress={async() => {
+                    const game = await fetchGameDetails(gameId)
+                    console.log('See gameId: ', game.id)
+                    game.fields.course = course
+                    console.log('Create Game B game: ', game)
+                    updateGameDetails(game)
+                    props.navigation.navigate('ResultsScreen', { gameId: game.id })
                 }}
             />
         </View>

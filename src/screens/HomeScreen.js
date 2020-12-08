@@ -18,26 +18,13 @@ import { createGame, getIncompleteGame } from './../api/scores'
 // }
 
 
-// const newGame = {
-//     gameId: false,
-//     score: { '1': 0 },
-//     shots: { '1': [] },
-//     hole: 1
-// }
 
 const HomeScreen = (props) => {
-
-    // setPos()
-    // updatePreviousGame()
-
-    const [results, setResults] = useState([])
-    const [previousGame, setPreviousGame] = useState('')
- 
 
     return (
         <View>
             <Button
-                title='test Axios get navigate'
+                title='Casual Game'
                 onPress={async() => { 
                     const result = await getIncompleteGame()
                     if (result){
@@ -46,15 +33,8 @@ const HomeScreen = (props) => {
                     } else {
                         const newGame = await createGame()
                         console.log('home button suceed: ', newGame)
-                        props.navigation.navigate('ResultsScreen', { gameId: newGame})
+                        props.navigation.navigate('NewGameScreen', { gameId: newGame})
                     }
-                }}
-            />
-            <FlatList
-                keyExtractor={result => result}
-                data={results}
-                renderItem={({ item, index }) => {
-                    return <Text>{item}</Text>
                 }}
             />
         </View>
