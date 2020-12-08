@@ -11,6 +11,7 @@ const reducer = (state, action) => {
     switch (action.type) {
         case 'makeStroke': // carries stroke actions
             currentState.score[state.hole] += 1
+
             return { ...state, score: currentState.score }
         case 'endHole': // does not update score or record a shot
             currentState.score[state.hole + 1] = 0
@@ -21,6 +22,7 @@ const reducer = (state, action) => {
             recordResults(currentState)
             return { ...state, complete: true }
         case 'recordShot': // records a shot and updates the database
+            console.log(currentState)
             currentState.shots[state.hole].push(action.payload.pos)
             recordResults(currentState)
             return { ...state, shots: currentState.shots}
@@ -35,6 +37,7 @@ const reducer = (state, action) => {
 const CasualScreen = (props) => {
     let previousGame = props.navigation.state.params.previousGame
 
+    // console.log(previousGame)
 
     let currentPos = { //There is a problem here that needs to addressed
         latitude: props.navigation.state.params.currentPos.coords.latitude,

@@ -11,6 +11,7 @@ const setGame = (res) => {
 
 export const updatePreviousGame = () =>{
     fetchResults(setGame)
+    console.log('updatePreviousGame', previousGame)
 }
 
 export const getPreviousGame = () => {
