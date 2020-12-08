@@ -3,7 +3,8 @@ import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import { createNewGame} from './../api/airtable'
 import { updatePreviousGame, getPreviousGame} from './../game/prevGame'
 import { setNewGameId} from './../game/newGame'
-import axiosAirtable from './../api/gameReq'
+import axiosAirtable from '../api/airtableApi'
+import { createGame, getIncompleteGame } from './../api/scores'
 
 
 // let currentPos = null
@@ -30,6 +31,7 @@ const HomeScreen = (props) => {
     // updatePreviousGame()
 
     const [results, setResults] = useState([])
+    const [previousGame, setPreviousGame] = useState('')
  
 
     return (
@@ -52,29 +54,21 @@ const HomeScreen = (props) => {
             /> */}
             <Button
                 title='test Axios get'
-                onPress={async() => {
-                    const res = await axiosAirtable.get('?')
-                    console.log(res.data)
+                onPress={() => { 
+                    getIncompleteGame(previousGame, setPreviousGame)
+                }}
+            />
+            <Button
+                title='test Axios get navigate'
+                onPress={async() => { 
+                    const result = await getIncompleteGame()
+                    console.log('home button: ', result)
+                    props.navigation.navigate('ResultsScreen', { previousGame: result})
                 }}
             />
             <Button
                 title='test Axios post'
-                onPress={async() => {
-                    const res = await axiosAirtable.post('',{
-                        "records": [
-                            {
-                                "fields": {
-                                    "date": "1607395386032",
-                                    "score": "{\"1\":0}",
-                                    "shots": "{\"1\":[]}"
-                                }
-                            }
-                        ]
-                    })
-                    console.log(res.data.records[0].id)
-                    setResults([...results, res.data.records[0].id])
-                    // console.log(res.data.records[0].id)
-                }}
+                onPress={() => { createGame(results, setResults) }}
             />
             <FlatList
                 keyExtractor={result => result}
