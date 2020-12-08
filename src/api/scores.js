@@ -8,7 +8,8 @@ export const createGame = async () => {
                 "fields": {
                     "date": "1607395386032",
                     "score": "{\"1\":0}",
-                    "shots": "{\"1\":[]}"
+                    "shots": "{\"1\":[]}",
+                    "complete": "false"
                 }
             }
         ]

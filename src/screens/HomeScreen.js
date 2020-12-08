@@ -36,39 +36,19 @@ const HomeScreen = (props) => {
 
     return (
         <View>
-            {/* <Button
-                title='Casual Mode'
-                onPress={() => {
-                    updatePreviousGame()
-                    let previousGame = getPreviousGame()
-                    if (previousGame) {
-                        console.log('~~~~~~~~~~~~~~~~~~~~~~~~')
-                        console.log(previousGame)
-                        props.navigation.navigate('CasualScreen', { previousGame: previousGame, currentPos: currentPos })
-                    } else {
-                        createNewGame(newGame, setNewGameId)
-                        props.navigation.navigate('NewGameScreen')
-
-                    }
-                }}
-            /> */}
-            <Button
-                title='test Axios get'
-                onPress={() => { 
-                    getIncompleteGame(previousGame, setPreviousGame)
-                }}
-            />
             <Button
                 title='test Axios get navigate'
                 onPress={async() => { 
                     const result = await getIncompleteGame()
-                    console.log('home button: ', result)
-                    props.navigation.navigate('ResultsScreen', { previousGame: result})
+                    if (result){
+                        console.log('home button suceed: ', result)
+                        props.navigation.navigate('ResultsScreen', { gameId: result})
+                    } else {
+                        const newGame = await createGame()
+                        console.log('home button suceed: ', newGame)
+                        props.navigation.navigate('ResultsScreen', { gameId: newGame})
+                    }
                 }}
-            />
-            <Button
-                title='test Axios post'
-                onPress={() => { createGame(results, setResults) }}
             />
             <FlatList
                 keyExtractor={result => result}
