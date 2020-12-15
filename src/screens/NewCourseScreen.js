@@ -56,7 +56,7 @@ const NewCourseScreen = (props) => {
                 title='Create New Game'
                 onPress={async () => {
                     const game = await fetchGameDetails(gameId)
-                    game.fields.courseName = courseName
+                    game.fields.course = courseName
                     game.fields.holes = state
                     updateGameDetails(game)
                     createNewCourse(courseName, state)

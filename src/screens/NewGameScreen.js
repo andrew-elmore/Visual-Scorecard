@@ -35,8 +35,9 @@ const NewGameScreen = (props) => {
                         title={course.name}
                         onPress={async () => {
                             const game = await fetchGameDetails(gameId)
-                            game.fields.courseName = course.name
+                            game.fields.course = course.name
                             game.fields.holes = course.holes
+                            console.log(game)
                             updateGameDetails(game)
                             props.navigation.navigate('CasualScreen', { gameId: game.id, game: game })
                         }}

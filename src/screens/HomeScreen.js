@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
 import { createGame, getIncompleteGame, fetchGameDetails } from './../api/scores'
 
-
+const logPos = () => {
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+           console.log(pos)
+        }
+    );
+}
 
 
 const HomeScreen = (props) => {
@@ -22,6 +28,10 @@ const HomeScreen = (props) => {
                         props.navigation.navigate('NewGameScreen', { gameId: newGameId })
                     }
                 }}
+            />
+            <Button
+                title='log pos'
+                onPress={() => {logPos()}}
             />
         </View>
     )
