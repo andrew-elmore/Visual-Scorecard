@@ -66,7 +66,7 @@ const Map = (props) => {
 
 const styles = StyleSheet.create({
     map: {
-        height: 300,
+        height: 269,
         width: 400
     }
 })
