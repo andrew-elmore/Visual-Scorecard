@@ -27,11 +27,19 @@ const reducer = (state, action) => {
 const NewCourseScreen = (props) => {
     const gameId = props.navigation.state.params.gameId
     // const pos = props.navigation.state.params.gameId
-    const [course, setCourse] = useState('')
+    const [courseName, setCourseName] = useState('')
     const [state, dispatch] = useReducer(reducer, {
         par: {},
         yards: {}
     })
+
+    const createNewCourse = (courseName, state) => {
+        navigator.geolocation.getCurrentPosition(
+            pos => {
+                createCourse({ name: courseName, holes: state, location: { latitude: pos.coords.latitude, longitude: pos.coords.longitude}})
+            }
+        );
+    }
 
     return (
         <View style={styles.background}>
@@ -39,8 +47,8 @@ const NewCourseScreen = (props) => {
                 style={styles.courseInput}
                 autoCapitalize='words'
                 autoCorrect={false}
-                value={course}
-                onChangeText={(newValue) => { setCourse(newValue) }}
+                value={courseName}
+                onChangeText={(newValue) => { setCourseName(newValue) }}
             />
             <View style={styles.buttonContainer}>
             <Button
@@ -48,9 +56,10 @@ const NewCourseScreen = (props) => {
                 title='Create New Game'
                 onPress={async () => {
                     const game = await fetchGameDetails(gameId)
-                    game.fields.course = course
+                    game.fields.courseName = courseName
                     game.fields.holes = state
                     updateGameDetails(game)
+                    createNewCourse(courseName, state)
                     props.navigation.navigate('CasualScreen', { gameId: game.id, game: game })
                 }}
             />
