@@ -1,6 +1,7 @@
 import React, { useReducer, useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import { recordResults} from '../api/airtable'
+import { updateGameDetails, fetchGameDetails } from './../api/scores'
 import Map from './../component/map'
 
 
@@ -19,12 +20,11 @@ const reducer = (state, action) => {
             return { ...state, score: currentState.score, shots: currentState.shots , hole: state.hole + 1 }
         case 'finishGame':
             currentState.complete = true
-            recordResults(currentState)
+            updateGameDetails({id: action.payload.gameId, fields: currentState})
             return { ...state, complete: true }
         case 'recordShot': // records a shot and updates the database
-            console.log(currentState)
             currentState.shots[state.hole].push(action.payload.pos)
-            recordResults(currentState)
+            updateGameDetails({ id: action.payload.gameId, fields: currentState })
             return { ...state, shots: currentState.shots}
         case 'seeState':
         default:
@@ -32,36 +32,55 @@ const reducer = (state, action) => {
     }
 }
 
+const getLocation = (updateLocation) => {
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+            updateLocation( {
+                latitude: pos.coords.latitude,
+                longitude: pos.coords.longitude,
+                latitudeDelta: 0.001,
+                longitudeDelta: 0.001
+            })
+        }
+    );
+}
+
+
 
     
 const CasualScreen = (props) => {
-    let previousGame = props.navigation.state.params.previousGame
 
-    // console.log(previousGame)
+    const [location, updateLocation] = useState({})
+    if (!location.latitude) {
+        getLocation(updateLocation)
+    } 
 
-    let currentPos = { //There is a problem here that needs to addressed
-        latitude: props.navigation.state.params.currentPos.coords.latitude,
-        longitude: props.navigation.state.params.currentPos.coords.longitude
-    }
-
+    const pos = props.navigation.state.params.gameId
+    let game = props.navigation.state.params.game.fields
+    const [gameId, updateGameId] = useState(props.navigation.state.params.gameId)
     const [state, dispatch] = useReducer(reducer, { 
-        course: previousGame.course,
-        gameId: previousGame.gameId, 
-        score: previousGame.score, 
-        shots: previousGame.shots, 
-        hole: previousGame.hole, 
+        course: game.course,
+        score: game.score, 
+        shots: game.shots, 
+        hole: Object.keys(game.score).length, 
         complete: false 
     })
 
+
+
+
+
     
     const makeStroke = () => {
-        dispatch({ type: 'makeStroke' })
+        dispatch({ type: 'makeStroke', payload: {gameId: gameId} })
         navigator.geolocation.getCurrentPosition(
             pos => {
-                dispatch({ type: 'recordShot', payload: {pos: pos} })
+                dispatch({ type: 'recordShot', payload: {pos: pos, gameId: gameId} })
             }
         );
     }
+
+    
     
 
     return (
@@ -70,7 +89,7 @@ const CasualScreen = (props) => {
             <Button
                 title='in'
                 onPress={() => { 
-                    dispatch({ type: 'endHole' })
+                    dispatch({ type: 'endHole', payload: { gameId: gameId } })
                 }}
             />
             <Button
@@ -80,38 +99,37 @@ const CasualScreen = (props) => {
                 }}
             />
             <Button
-                title='seeState'
-                onPress={() => { 
-                    dispatch({ type: 'seeState' })
-                }}
-            />
-            <Button
                 title='finish'
                 onPress={() => { 
-                    dispatch({ type: 'finishGame' })
-                    props.navigation.navigate('NineteenthHole', { lastGame: state, currentPos: currentPos})
+                    dispatch({ type: 'finishGame', payload: { gameId: gameId } })
+                    props.navigation.navigate('NineteenthHole', { lastGame: state})
                 }}
             />
-            <Button
-                title='HomeScreen'
-                onPress={() => { 
-                    props.navigation.navigate('HomeScreen')
-                }}
-            />
-            <Map shots={state.shots} currentPos={currentPos}/>
+            <Map shots={state.shots} location={location}/>
             <FlatList
-                keyExtractor={score => {
-                    return score[0].toString()
+                keyExtractor={item => {
+                    return item[0].toString()
                 }}
-                data={Object.entries(state.score)}
+                data={Object.entries(game.holes.par)}
                 renderItem={({ item, index }) => {
-                    return (<Text>{`${item[0]}:  ${item[1]}`}</Text>)
+                    let hole = item[0]
+                    let par = item[1]
+                    let yards = game.holes.yards[hole]
+                    let score = ''
+                    let overUnder = ''
+                    if (state.score[hole]){
+                        score = state.score[hole]
+                        overUnder = parseInt(state.score[hole]) - parseInt(par)
+                    } 
+                    return (<Text>{`${hole} : ${par} : ${yards} : ${score} : ${overUnder}`}</Text>)
                 }}
             />
             <Text>Total Score: {
                 Object.values(state.score).reduce((a, b) => {
                     return a + b
                 })
+            } : {
+                Object.values(game.holes.par).reduce((a, b) =>{return a + b})
             }</Text>
         </View>
     )
@@ -122,5 +140,6 @@ const styles = StyleSheet.create({
 })
 
 export default CasualScreen;
+
 
 
