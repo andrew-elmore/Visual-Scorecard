@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
+import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
+import styleSettings from './../styleSettings'
 
 const ResultsScreen = (props) => {
     return (
@@ -9,8 +10,6 @@ const ResultsScreen = (props) => {
     )
 }
 
-const styles = StyleSheet.create({
-
-})
+const styles = StyleSheet.create(styleSettings)
 
 export default ResultsScreen;

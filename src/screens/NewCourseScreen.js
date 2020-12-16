@@ -2,6 +2,7 @@ import React, { useState, useReducer } from 'react';
 import { Text, View, StyleSheet, Button, TouchableOpacity, FlatList, TextInput, Dimensions } from 'react-native';
 import { updateGameDetails, fetchGameDetails } from '../api/scores'
 import { createCourse } from '../api/courses'
+import styleSettings from './../styleSettings'
 
 
 const reducer = (state, action) => {
@@ -58,9 +59,13 @@ const NewCourseScreen = (props) => {
                     const game = await fetchGameDetails(gameId)
                     game.fields.course = courseName
                     game.fields.holes = state
-                    updateGameDetails(game)
                     createNewCourse(courseName, state)
-                    props.navigation.navigate('CasualScreen', { gameId: game.id, game: game })
+                    await updateGameDetails(game)
+                    if (game.fields.strict) {
+                        props.navigation.navigate('StrictScreen', { gameId: game.id, game: game })
+                    } else {
+                        props.navigation.navigate('CasualScreen', { gameId: game.id, game: game })
+                    }
                 }}
             />
             </View>
@@ -115,46 +120,7 @@ const NewCourseScreen = (props) => {
     )
 }
 
-
-const styles = StyleSheet.create({
-    background: {
-        backgroundColor: 'rgb(190, 247, 124)',
-        height: Dimensions.get("window").height,
-        paddingTop: 10
-    },
-    buttonContainer: { 
-        backgroundColor: 'rgb(54, 125, 0)', 
-        borderRadius: 10, 
-        margin: 10 
-    },
-    contents: {
-        flex: 1, 
-        flexDirection: 'row',
-        padding: 5,
-        borderStyle: 'solid',
-        borderWidth: 1
-    },
-    lines: {
-        marginEnd: 20
-    },
-    textInput: {
-        marginEnd: 20, 
-        backgroundColor: 'rgb(173, 173, 173)',
-        width: 50,
-        paddingLeft: 5
-    },
-    courseInput: {
-        width: Dimensions.get("window").width,
-        height: 30,
-        fontSize: 20,
-        backgroundColor: 'rgb(173, 173, 173)',
-        paddingLeft: 5
-    },
-    button: {
-        backgroundColor: 'rgb(54, 125, 0)',
-        color: 'rgb(54, 125, 0)'
-    }
-})
+const styles = StyleSheet.create(styleSettings)
 
 export default NewCourseScreen;
 

@@ -48,9 +48,9 @@ let scores = [[[41.393602112645866, -71.86236412395105],
 let shots = {}
 let course = 'Elmridge White'
 let score = {}
+let startTime = Date.now()
 scores.forEach((hole, idx) =>{
-    score[idx + 1] = hole.length
-    shots[idx+1] = hole.map((shot) => {
+    shots[idx+1] = hole.map((shot, sIdx) => {
         let latitude = shot[0]
         let longitude = shot[1]
         return ({
@@ -63,9 +63,10 @@ scores.forEach((hole, idx) =>{
                 longitude: longitude,
                 speed: -1
             },
-            timestamp: 1608069923290.652
+            timestamp: startTime + (300000 * (sIdx + Object.values(score).length))
         })
     })
+    score[idx + 1] = hole.length
 })
 
 console.log(shots)
@@ -84,10 +85,10 @@ axiosAirtable.post('/scores', {
         "records": [
             {
                 "fields": {
-                    "date": JSON.stringify(Date.now()),
+                    "date": JSON.stringify(startTime),
                     "score": JSON.stringify(score),
                     "shots": JSON.stringify(shots),
-                    "holes": JSON.stringify({ 'par': {}, 'yards': {} }),
+                    "holes": JSON.stringify({"par":{"1":"4","2":"5","3":"4","4":"3","5":"5","6":"4","7":"4","8":"3","9":"4"},"yards":{"1":"365","2":"433","3":"344","4":"149","5":"576","6":"354","7":"365","8":"206","9":"370"}}),
                     "course": JSON.stringify(course),
                     "complete": JSON.stringify(true)
                 }

@@ -1,7 +1,7 @@
 import axiosAirtable from './airtableApi'
 
 
-export const createGame = async (newGame) => {
+export const createGame = async (strict) => {
     const res = await axiosAirtable.post('/scores', {
         "records": [
             {
@@ -11,7 +11,8 @@ export const createGame = async (newGame) => {
                     "shots": JSON.stringify({ '1': [] }),
                     "holes": JSON.stringify({ 'par': {}, 'yards': {} }),
                     "course": JSON.stringify('placeholder'),
-                    "complete": JSON.stringify(false)
+                    "complete": JSON.stringify(false),
+                    "strict": JSON.stringify(strict)
                 }
             }
         ]
@@ -40,7 +41,8 @@ export const fetchGameDetails = async(id) => {
             shots: JSON.parse(res.data.fields.shots) ,
             holes: JSON.parse(res.data.fields.holes) ,
             course: JSON.parse(res.data.fields.course) ,
-            complete: JSON.parse(res.data.fields.complete) 
+            complete: JSON.parse(res.data.fields.complete), 
+            strict: JSON.parse(res.data.fields.strict) 
         },
         createdTime: res.data.createdTime
     }
@@ -58,9 +60,20 @@ export const updateGameDetails = async (data) => {
                     "shots": JSON.stringify(data.fields.shots),
                     "holes": JSON.stringify(data.fields.holes),
                     "course": JSON.stringify(data.fields.course),
-                    "complete": JSON.stringify(data.fields.complete)
+                    "complete": JSON.stringify(data.fields.complete),
+                    "strict": JSON.stringify(data.fields.strict)
                 }
             }
         ]
     })
+}
+
+export const getAllGames = async () => {
+    const res = await axiosAirtable.get(`/scores?filterByFormula={complete}='true'`)
+    if (res.data.records.length > 0) {
+        let results = res.data.records.map((record) => {return record.id})
+        return results
+    } else {
+        return null
+    }
 }

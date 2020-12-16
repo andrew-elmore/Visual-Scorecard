@@ -6,6 +6,7 @@ import NewCourseScreen from "./src/screens/NewCourseScreen";
 import NineteenthHole from "./src/screens/NineteenthHole";
 import ResultsScreen from "./src/screens/ResultsScreen";
 import NewGameScreen from "./src/screens/NewGameScreen";
+import StrictScreen from "./src/screens/StrictScreen";
 
 
 const navigator = createStackNavigator(
@@ -16,6 +17,7 @@ const navigator = createStackNavigator(
     NineteenthHole: NineteenthHole,
     ResultsScreen: ResultsScreen,
     NewGameScreen: NewGameScreen,
+    StrictScreen: StrictScreen,
   },
   {
     initialRouteName: "HomeScreen",

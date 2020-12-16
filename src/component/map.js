@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
 import MapView, { Polyline, Marker} from 'react-native-maps'
+import styleSettings from './../styleSettings'
 
 const Map = (props) => {
     let pos = props.pos
@@ -10,32 +11,32 @@ const Map = (props) => {
 
     
 
-    const extractLatLng = (lat, lng) => {
-        let latDiff = Math.max(...lat) - Math.min(...lat)
-        let latitude = (Math.min(...lat) + latDiff)
-        let latitudeDelta = (latDiff + 0.0001)
-        let lngDiff = Math.max(...lng) - Math.min(...lng)
-        let longitude = (Math.min(...lng) + lngDiff)
-        let longitudeDelta = (lngDiff + 0.0001)
-        return {
-            latitude: latitude,
-            longitude: longitude,
-            latitudeDelta: latitudeDelta,
-            longitudeDelta: longitudeDelta
-        }
-    }
+    // const extractLatLng = (lat, lng) => {
+    //     let latDiff = Math.max(...lat) - Math.min(...lat)
+    //     let latitude = (Math.min(...lat) + latDiff)
+    //     let latitudeDelta = (latDiff + 0.0001)
+    //     let lngDiff = Math.max(...lng) - Math.min(...lng)
+    //     let longitude = (Math.min(...lng) + lngDiff)
+    //     let longitudeDelta = (lngDiff + 0.0001)
+    //     return {
+    //         latitude: latitude,
+    //         longitude: longitude,
+    //         latitudeDelta: latitudeDelta,
+    //         longitudeDelta: longitudeDelta
+    //     }
+    // }
 
-    if (props.shots[1].length > 0){
-        let lat = []
-        let lng = []
-        Object.values(props.shots).forEach((hole) => {
-            hole.forEach((shot) => {
-                lat.push(shot.coords.latitude)
-                lng.push(shot.coords.longitude)
-            })
-        })
-        pos = extractLatLng(lat, lng)
-    }
+    // if (props.shots[1].length > 0){
+    //     let lat = []
+    //     let lng = []
+    //     Object.values(props.shots).forEach((hole) => {
+    //         hole.forEach((shot) => {
+    //             lat.push(shot.coords.latitude)
+    //             lng.push(shot.coords.longitude)
+    //         })
+    //     })
+    //     pos = extractLatLng(lat, lng)
+    // }
 
     
     let shots = []
@@ -64,11 +65,7 @@ const Map = (props) => {
     )
 }
 
-const styles = StyleSheet.create({
-    map: {
-        height: 269,
-        width: 400
-    }
-})
+const styles = StyleSheet.create(styleSettings)
+
 
 export default Map;

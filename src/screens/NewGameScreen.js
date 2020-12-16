@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
+import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
 import { getCourses } from '../api/courses'
 import { updateGameDetails, fetchGameDetails } from '../api/scores'
+import styleSettings from './../styleSettings'
 
 
 
 const NewGameScreen = (props) => {
     const [courses, setCourses] = useState([])
     const findCourses = async() =>{
-        console.log('triggered')
         const res = await getCourses()
         setCourses(res)
     }
@@ -37,9 +37,12 @@ const NewGameScreen = (props) => {
                             const game = await fetchGameDetails(gameId)
                             game.fields.course = course.name
                             game.fields.holes = course.holes
-                            console.log(game)
-                            updateGameDetails(game)
-                            props.navigation.navigate('CasualScreen', { gameId: game.id, game: game })
+                            await updateGameDetails(game)
+                            if (game.fields.strict) {
+                                props.navigation.navigate('StrictScreen', { gameId: game.id, game: game })
+                            } else {
+                                props.navigation.navigate('CasualScreen', { gameId: game.id, game: game })
+                            }
                         }}
                     />)
                 }}
@@ -48,8 +51,6 @@ const NewGameScreen = (props) => {
     )
 }
 
-const styles = StyleSheet.create({
-
-})
+const styles = StyleSheet.create(styleSettings)
 
 export default NewGameScreen;

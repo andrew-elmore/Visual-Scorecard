@@ -18,7 +18,6 @@ export const getCourses = async () => {
 }
 
 export const createCourse = async (newCourse) => {
-    console.log(newCourse)
     const res = await axiosAirtable.post('/courses', {
         "records": [
             {
