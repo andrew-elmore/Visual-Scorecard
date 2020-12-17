@@ -16,14 +16,24 @@ const authReducer = (state, action) => {
     }
 }
 
+const tryLocalSignin = (dispatch) => async() => {
+    const token = await AsyncStorage.getItem('token')
+    if (token){
+        const email = await AsyncStorage.getItem('visualScorecardUser')
+        dispatch({ type: 'login', payload: { token, email } })
+        navigate('HomeScreen')
+    } else {
+        navigate('SignupScreen')
+    }
+}
 
 const signup = (dispatch) =>  async({email, password}) => {
     try {
         const response = await axiosInstance.post('/signup', {email, password})
         let token = response.data.token
         await AsyncStorage.setItem('token', token);
-        dispatch({ type: 'login', payload: token})
-        console.log(token)
+        await AsyncStorage.setItem('visualScorecardUser', email);
+        dispatch({ type: 'login', payload: { token, email }})
         navigate('HomeScreen')
     } catch(err) {
         dispatch({ type: 'add_error', payload: err.response.data })
@@ -36,6 +46,7 @@ const signin = (dispatch) => async ({ email, password }) => {
         const response = await axiosInstance.post('/signin', { email, password })
         let token = response.data.token
         await AsyncStorage.setItem('token', token);
+        await AsyncStorage.setItem('visualScorecardUser', email);
         dispatch({ type: 'login', payload: {token, email} })
         navigate('HomeScreen')
     } catch (err) {
@@ -44,13 +55,20 @@ const signin = (dispatch) => async ({ email, password }) => {
 }
 
 const signout = (dispatch) => async () => {
-    await AsyncStorage.setItem('token', '');
+    let res = null
+    console.log('1')
+    console.log('1')
+    await AsyncStorage.setItem('token', res);
+    await AsyncStorage.setItem('visualScorecardUser', res);
+    console.log('1')
     dispatch({type: 'logout'})
+    console.log('1')
+    navigate('SigninScreen')
 }
 
 
 export const {Provider, Context} = createDataContext(
     authReducer, 
-    { signup, signin, signout}, 
+    { signup, signin, signout, tryLocalSignin}, 
     {token: null, errorMessage: '', user: null}
 )

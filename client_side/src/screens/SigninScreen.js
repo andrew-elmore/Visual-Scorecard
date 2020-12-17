@@ -7,9 +7,11 @@ import Spacer from './../component/spacer'
 
 
 const SigninScreen = (props) => {
-    const {state, signin} = useContext(AuthContext)
+    const {state, signin, tryLocalSignin} = useContext(AuthContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    
     return (
         <>
             <Spacer/>

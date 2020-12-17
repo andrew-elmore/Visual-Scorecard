@@ -14,7 +14,6 @@ const reducer = (state, action) => {
     switch (action.type) {
         case 'makeStroke': // carries stroke actions
             currentState.score[state.hole] += 1
-
             return { ...state, score: currentState.score }
         case 'endHole': // does not update score or record a shot
             currentState.score[state.hole + 1] = 0
@@ -28,6 +27,9 @@ const reducer = (state, action) => {
             currentState.shots[state.hole].push(action.payload.pos)
             updateGameDetails({ id: action.payload.gameId, fields: currentState })
             return { ...state, shots: currentState.shots }
+        case 'penalty': // adds one shot to the score
+            currentState.score[state.hole] += 1
+            return { ...state, score: currentState.score }
         case 'seeState':
         default:
             return state
@@ -135,8 +137,9 @@ const StrictScreen = (props) => {
                 <View style={styles.buttonContainer}>
                     <Button
                         color='rgb(255, 255, 255)'
-                        title='Mulligan'
+                        title='Penalty'
                         onPress={() => {
+                            dispatch({type: 'penalty', payload: {gameId}})
                         }}
                     />
                 </View>
