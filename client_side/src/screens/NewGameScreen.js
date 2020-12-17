@@ -17,13 +17,17 @@ const NewGameScreen = (props) => {
     }
     const gameId = props.navigation.state.params.gameId
     return (
-        <View>
-            <Button
-                title='Create New Course'
-                onPress={async () => {
-                    props.navigation.navigate('NewCourseScreen', { gameId: gameId})
-                }}
-            />
+        <View style={styles.background}>
+            <View style={styles.buttonContainer}>
+                <Button
+                    color='rgb(255, 255, 255)'
+                    title='Create New Course'
+                    onPress={async () => {
+                        props.navigation.navigate('NewCourseScreen', { gameId: gameId})
+                    }}
+                />
+            </View>
+
             <FlatList
                 keyExtractor={item => {
                     return item.name.toString()
@@ -31,7 +35,10 @@ const NewGameScreen = (props) => {
                 data={courses}
                 renderItem={({ item, index }) => {
                     let course = item
-                    return (<Button
+                    return (
+                    <View style={styles.buttonContainer}>
+                    <Button
+                        color='rgb(255, 255, 255)'
                         title={course.name}
                         onPress={async () => {
                             const game = await fetchGameDetails(gameId)
@@ -44,7 +51,9 @@ const NewGameScreen = (props) => {
                                 props.navigation.navigate('CasualScreen', { gameId: game.id, game: game })
                             }
                         }}
-                    />)
+                    />
+                    </View>
+                    )
                 }}
             />
         </View>

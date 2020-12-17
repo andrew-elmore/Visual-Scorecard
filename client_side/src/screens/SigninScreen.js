@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
-import { Text, Input, Button } from 'react-native-elements';
+import { View, StyleSheet, FlatList, Button } from 'react-native';
+import { Text, Input } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Context as AuthContext } from './../context/authContext'
 import Spacer from './../component/spacer'
+import styleSettings from './../styleSettings'
+
 
 
 const SigninScreen = (props) => {
@@ -13,9 +15,10 @@ const SigninScreen = (props) => {
 
     
     return (
-        <>
+        <View style={styles.background}>
             <Spacer/>
             <Text h3>Sign In</Text>
+            <Spacer/>
             <Input
                 label="Email"
                 value={email}
@@ -29,27 +32,37 @@ const SigninScreen = (props) => {
                 onChangeText={setPassword}
                 autoCapitalize="none"
                 autoCorrect={false}
-            // secureTextEntry
+                secureTextEntry
             />
             <Text>{state.errorMessage}</Text>
+            <Spacer />
+            <View style={styles.buttonContainer}>
             <Button
+                color="white"
                 title="Sign In"
                 onPress={() => { signin({ email, password }) }}
             />
+            </View>
+
+            <Spacer />
+
+            <View style={styles.buttonContainer}>
             <Button
+                color="white"
                 title="Demo Sign In"
                 onPress={() => { signin({ email: 'demo@demo.com', password: 'demoPassword' }) }}
             />
+            </View>
 
-            <TouchableOpacity onPress={() => props.navigation.navigate('Signup')}>
+            <Spacer />
+            
+            <TouchableOpacity onPress={() => props.navigation.navigate('SignupScreen')}>
                 <Text>Don't have an account? Sign up here.</Text>
             </TouchableOpacity>
-        </>
+        </View>
     )
 }
 
-const styles = StyleSheet.create({
-
-})
+const styles = StyleSheet.create(styleSettings)
 
 export default SigninScreen;

@@ -3,7 +3,8 @@ import { Dimensions } from 'react-native';
 export default {
     background: {
         backgroundColor: 'rgb(190, 247, 124)',
-        paddingTop: 10
+        paddingTop: 10,
+        height: Dimensions.get("window").height,
     },
     contents: {
         flex: 1,

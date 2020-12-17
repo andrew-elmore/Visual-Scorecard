@@ -1,16 +1,20 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
-import {Text, Input, Button} from 'react-native-elements';
+import { View, StyleSheet, FlatList, Button } from 'react-native';
+import {Text, Input} from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {Context as AuthContext} from './../context/authContext'
+import styleSettings from './../styleSettings'
+import Spacer from './../component/spacer'
 
 const SignupScreen = (props) => {
     const {state, signup} = useContext(AuthContext)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     return (
-        <>
+        <View style={styles.background}>
+            <Spacer />
             <Text h3>Sign Up</Text>
+            <Spacer />
             <Input 
                 label="Email" 
                 value={email} 
@@ -24,23 +28,25 @@ const SignupScreen = (props) => {
                 onChangeText={setPassword} 
                 autoCapitalize="none" 
                 autoCorrect={false}
-                // secureTextEntry
+                secureTextEntry
             />
             <Text>{state.errorMessage}</Text>
+            <View style={styles.buttonContainer}>
             <Button
+                color="white"
                 title="Sign Up"
                 onPress={() => {signup({email, password})}}
             />
+            </View>
+            <Spacer />
 
-            <TouchableOpacity onPress={() => props.navigation.navigate('Signin')}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('SigninScreen')}>
                 <Text>Already have an account? Sign in instead.</Text>
             </TouchableOpacity>
-        </>
+        </View>
     )
 }
 
-const styles = StyleSheet.create({
-
-})
+const styles = StyleSheet.create(styleSettings)
 
 export default SignupScreen;

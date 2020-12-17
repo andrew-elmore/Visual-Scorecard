@@ -4,22 +4,19 @@ import { createGame, getIncompleteGame, fetchGameDetails } from './../api/scores
 import Spacer from './../component/spacer'
 import styleSettings from './../styleSettings'
 
-const logPos = () => {
-    navigator.geolocation.getCurrentPosition(
-        pos => {
-           console.log(pos)
-        }
-    );
-}
 
 
 const HomeScreen = (props) => {
 
 
     return (
-        <View >
+        <View style={styles.background}>
             <Spacer/>
+            <Text>Visual Scorecard</Text>
+            <Spacer/>
+            <View style={styles.buttonContainer}>
             <Button
+                color='rgb(255, 255, 255)'
                 title='Casual Game'
                 onPress={async() => { 
                     const gameId = await getIncompleteGame()
@@ -32,7 +29,11 @@ const HomeScreen = (props) => {
                     }
                 }}
             />
+            </View>
+            <Spacer/>
+            <View style={styles.buttonContainer}>
             <Button
+                color='rgb(255, 255, 255)'
                 title='Strict Game'
                 onPress={async() => { 
                     const gameId = await getIncompleteGame()
@@ -45,12 +46,8 @@ const HomeScreen = (props) => {
                     }
                 }}
             />
-            <Button
-                title='Review All Games'
-                onPress={() => { 
-                    props.navigation.navigate('NineteenthHole')
-                }}
-            />
+            </View>
+            <Spacer />
         </View>
     )
 }

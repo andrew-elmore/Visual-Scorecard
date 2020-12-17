@@ -7,8 +7,17 @@ import * as geolib from 'geolib';
 import styleSettings from './../styleSettings'
 import Spacer from './../component/spacer'
 
-const fetchGames = async (setGames, setGame) =>{
-    const games = await getAllGames()
+const fetchGames = async (setGames, setGame, view) =>{
+    let searchParam = "filterByFormula={complete}='true'"
+    switch (view) {
+        case 1:
+            searchParam = "filterByFormula=AND({complete}='true', {strict}='false')"
+        case 2:
+            searchParam = "filterByFormula=AND({complete}='true', {strict}='true')"
+        default:
+            break;
+    }
+    const games = await getAllGames(searchParam)
     setGames(games)
     const game = await fetchGameDetails(games[0])
     setGame(game)
@@ -25,11 +34,13 @@ const findCenter = (shots) => {
     let center = {
         latitude: latLongCenter.latitude,
         longitude: latLongCenter.longitude,
-        latitudeDelta: 0.001,
-        longitudeDelta: 0.001
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01
     }
     return center
 }
+
+
 
 const renderGameDetails = (game) => {
     
@@ -53,19 +64,31 @@ const NineteenthHole = (props) => {
     const [games, setGames] = useState([])
     const [gameIdx, setGameIdx] = useState(1)
     const [game, setGame] = useState({})
+    const [view, setView] = useState(0)
 
     if (games.length === 0){
-        fetchGames(setGames, setGame)
+        fetchGames(setGames, setGame, view)
     }
 
 
-
+    const strictness = () => {
+        if (!!game.fields) { 
+            console.log(!!game.fields)
+            if (game.fields.strict ) {
+                return "strict"
+            } else {
+                return "casual"
+            }
+        }
+    }
 
 
     return (
-        <View>
+        <View style={styles.background}>
             <Spacer/>
+            <View style={styles.buttonContainer}>
             <Button 
+                color='rgb(255, 255, 255)'
                 title='Next Game'
                 onPress={async() => {
                     const newGameIdx = (gameIdx + 1) % games.length
@@ -74,7 +97,10 @@ const NineteenthHole = (props) => {
                     setGameIdx(newGameIdx)
                 }}
             />
+            </View>
+            <View style={styles.buttonContainer}>
             <Button 
+                color='rgb(255, 255, 255)'
                 title='Previous Game'
                 onPress={async() => {
                     let newGameIdx = gameIdx - 1
@@ -86,8 +112,9 @@ const NineteenthHole = (props) => {
                     setGameIdx(newGameIdx)
                 }}
             />
-  
+            </View>
             {renderGameDetails(game)}
+            <Text>This was a {strictness()} game.</Text>
         </View>
     )
 }
