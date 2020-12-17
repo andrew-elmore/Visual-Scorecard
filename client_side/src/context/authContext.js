@@ -55,14 +55,9 @@ const signin = (dispatch) => async ({ email, password }) => {
 }
 
 const signout = (dispatch) => async () => {
-    let res = null
-    console.log('1')
-    console.log('1')
-    await AsyncStorage.setItem('token', res);
-    await AsyncStorage.setItem('visualScorecardUser', res);
-    console.log('1')
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('visualScorecardUser');
     dispatch({type: 'logout'})
-    console.log('1')
     navigate('SigninScreen')
 }
 

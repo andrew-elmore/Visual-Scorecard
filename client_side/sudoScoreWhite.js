@@ -86,12 +86,17 @@ axiosAirtable.post('/scores', {
             {
                 "fields": {
                     "date": JSON.stringify(startTime),
+                    "user": JSON.stringify('demo@demo.com'),
                     "score": JSON.stringify(score),
                     "shots": JSON.stringify(shots),
                     "holes": JSON.stringify({"par":{"1":"4","2":"5","3":"4","4":"3","5":"5","6":"4","7":"4","8":"3","9":"4"},"yards":{"1":"365","2":"433","3":"344","4":"149","5":"576","6":"354","7":"365","8":"206","9":"370"}}),
                     "course": JSON.stringify(course),
-                    "complete": JSON.stringify(true)
+                    "complete": JSON.stringify(true),
+                    "strict": JSON.stringify(true),
                 }
             }
         ]
     })
+
+
+    
