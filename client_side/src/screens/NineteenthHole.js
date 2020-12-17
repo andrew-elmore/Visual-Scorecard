@@ -5,6 +5,7 @@ import Map from './../component/map'
 import Scorecard from './../component/scorecard'
 import * as geolib from 'geolib';
 import styleSettings from './../styleSettings'
+import Spacer from './../component/spacer'
 
 const fetchGames = async (setGames, setGame) =>{
     const games = await getAllGames()
@@ -63,6 +64,7 @@ const NineteenthHole = (props) => {
 
     return (
         <View>
+            <Spacer/>
             <Button 
                 title='Next Game'
                 onPress={async() => {

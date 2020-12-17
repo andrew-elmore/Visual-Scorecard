@@ -5,7 +5,7 @@ import { updateGameDetails, fetchGameDetails } from './../api/scores'
 import Map from './../component/map'
 import Scorecard from './../component/scorecard'
 import styleSettings from './../styleSettings'
-
+import Spacer from './../component/spacer'
 
 
 const reducer = (state, action) => {
@@ -126,6 +126,7 @@ const CasualScreen = (props) => {
 
     return (
         <View style={styles.background}>
+            <Spacer/>
             <Text style={{fontSize: 15, textAlign: "center"}}>{`You are playing at ${state.course}`}</Text>
             <View >
             <View style={styles.buttonContainer}>

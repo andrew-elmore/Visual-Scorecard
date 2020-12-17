@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
 import { createGame, getIncompleteGame, fetchGameDetails } from './../api/scores'
+import Spacer from './../component/spacer'
 import styleSettings from './../styleSettings'
 
 const logPos = () => {
@@ -17,6 +18,7 @@ const HomeScreen = (props) => {
 
     return (
         <View >
+            <Spacer/>
             <Button
                 title='Casual Game'
                 onPress={async() => { 

@@ -3,6 +3,8 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Context as AuthContext } from './../context/authContext'
+import Spacer from './../component/spacer'
+
 
 const SigninScreen = (props) => {
     const {state, signin} = useContext(AuthContext)
@@ -10,6 +12,7 @@ const SigninScreen = (props) => {
     const [password, setPassword] = useState('')
     return (
         <>
+            <Spacer/>
             <Text h3>Sign In</Text>
             <Input
                 label="Email"
