@@ -30,7 +30,7 @@ export const getIncompleteGame = async () => {
     }
 }
 
-export const fetchGameDetails = async(id) => {
+export const getGameDetails = async(id) => {
     const res = await axiosAirtable.get(`/scores/${id}`)
 
     let game = {
@@ -50,7 +50,7 @@ export const fetchGameDetails = async(id) => {
     return game
 }
 
-export const updateGameDetails = async (data) => {
+export const patchGameDetails = async (data) => {
     const res = await axiosAirtable.patch(`/scores`, {
         "records": [
             {

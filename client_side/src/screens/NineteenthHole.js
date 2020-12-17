@@ -39,6 +39,7 @@ const renderGameDetails = (game) => {
         return (
             <View>
                 <Text>{game.fields.course.toString()}</Text>
+
                 <Scorecard game={game.fields} gameScore={{ score: game.fields.score }} />
                 <Map shots={shots} location={location} />
             </View>

@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
 import { getCourses } from '../api/courses'
 import { updateGameDetails, fetchGameDetails } from '../api/scores'
+import { Context as GameContext } from './../context/gameContext'
 import styleSettings from './../styleSettings'
 
 
 
 const NewGameScreen = (props) => {
     const [courses, setCourses] = useState([])
+    const { state, makeNewGame } = useContext(GameContext)
+
     const findCourses = async() =>{
         const res = await getCourses()
         setCourses(res)

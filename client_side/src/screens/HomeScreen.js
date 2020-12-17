@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
 import { createGame, getIncompleteGame, fetchGameDetails } from './../api/scores'
+import { Context as GameContext } from './../context/gameContext'
 import Spacer from './../component/spacer'
 import styleSettings from './../styleSettings'
 
@@ -14,7 +15,7 @@ const logPos = () => {
 
 
 const HomeScreen = (props) => {
-
+    const { state, makeNewGame } = useContext(GameContext)
 
     return (
         <View >
@@ -22,26 +23,24 @@ const HomeScreen = (props) => {
             <Button
                 title='Casual Game'
                 onPress={async() => { 
-                    const gameId = await getIncompleteGame()
-                    if (gameId){
+                    if (state.gameId){
                         const game = await fetchGameDetails(gameId)
                         props.navigation.navigate('CasualScreen', { gameId: gameId, game: game})
                     } else {
-                        const newGameId = await createGame(false)
-                        props.navigation.navigate('NewGameScreen', { gameId: newGameId })
+                        makeNewGame(false)
+                        props.navigation.navigate('NewGameScreen')
                     }
                 }}
             />
             <Button
                 title='Strict Game'
                 onPress={async() => { 
-                    const gameId = await getIncompleteGame()
-                    if (gameId){
+                    if (state.gameId){
                         const game = await fetchGameDetails(gameId)
                         props.navigation.navigate('StrictScreen', { gameId: gameId, game: game})
                     } else {
-                        const newGameId = await createGame(true)
-                        props.navigation.navigate('NewGameScreen', { gameId: newGameId })
+                        makeNewGame(true)
+                        props.navigation.navigate('NewGameScreen')
                     }
                 }}
             />

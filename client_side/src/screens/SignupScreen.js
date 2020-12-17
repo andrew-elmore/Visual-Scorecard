@@ -32,7 +32,7 @@ const SignupScreen = (props) => {
                 onPress={() => {signup({email, password})}}
             />
 
-            <TouchableOpacity onPress={() => props.navigation.navigate('Signin')}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('SigninScreen')}>
                 <Text>Already have an account? Sign in instead.</Text>
             </TouchableOpacity>
         </>
