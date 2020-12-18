@@ -13,3 +13,5 @@ web-build/
 .DS_Store
 /client_side/node_modules
 /server/node_modules
+/client_side/config
+/server/config

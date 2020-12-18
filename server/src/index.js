@@ -4,13 +4,14 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
 const requireAuth = require('./middlewares/requireAuth');
+const mongoKEy = require('./../config/mongoDbKey')
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(authRoutes);
 
-const mongoUri = 'mongodb+srv://dbUser:62zvpKmmwCOad4KQ@cluster0.n9rlf.mongodb.net/users?retryWrites=true&w=majority';
+const mongoUri = `mongodb+srv://dbUser:${mongoKey}@cluster0.n9rlf.mongodb.net/users?retryWrites=true&w=majority`;
 if (!mongoUri) {
   throw new Error(
     `MongoURI was not supplied.  Make sure you watch the video on setting up Mongo DB!`
