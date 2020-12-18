@@ -4,7 +4,6 @@ import { AsyncStorage } from 'react-native';
 
 export const createGame = async (strict) => {
     const email = await AsyncStorage.getItem('visualScorecardUser')
-    console.log(email)
     const res = await axiosAirtable.post('/scores', {
         "records": [
             {

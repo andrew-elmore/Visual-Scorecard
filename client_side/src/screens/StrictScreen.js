@@ -58,7 +58,6 @@ const renderGameDetails = (game, state, location, gameId, props) => {
             </View>
         )
     } else {
-        console.log('no Game')
         props.navigation.navigate('NewGameScreen', { gameId: gameId })
         return (<Text>Please Wait For Game To Load</Text>)
     }

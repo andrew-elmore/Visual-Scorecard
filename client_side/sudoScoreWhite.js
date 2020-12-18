@@ -69,8 +69,7 @@ scores.forEach((hole, idx) =>{
     score[idx + 1] = hole.length
 })
 
-console.log(shots)
-console.log(score)
+
 
 
 const axiosAirtable = axios.create({

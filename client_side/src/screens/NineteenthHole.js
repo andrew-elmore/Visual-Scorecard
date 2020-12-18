@@ -73,7 +73,6 @@ const NineteenthHole = (props) => {
 
     const strictness = () => {
         if (!!game.fields) { 
-            console.log(!!game.fields)
             if (game.fields.strict ) {
                 return "strict"
             } else {
