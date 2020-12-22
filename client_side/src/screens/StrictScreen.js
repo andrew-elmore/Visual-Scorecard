@@ -1,6 +1,5 @@
 import React, { useReducer, useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
-import { recordResults } from '../api/airtable'
 import { updateGameDetails, fetchGameDetails } from './../api/scores'
 import Map from './../component/map'
 import Scorecard from './../component/scorecard'
