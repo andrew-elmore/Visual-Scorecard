@@ -43,16 +43,16 @@ const signup = (dispatch) =>  async({email, password}) => {
 
 ## New Game
 
-![newGame](assets/New_Game.png)
+![newGame](assets/New_Game.png =250x)
 
 ## New Course
 
-![newCourse](assets/New_Course.png)
+![newCourse](assets/New_Course.png =250x)
 
 ## Play
 
-![play](assets/Game.png)
+![play](assets/Game.png =250x)
 
 ## Review
 
-![review](assets/Review.gif)
+![review](assets/Review.gif =250x)
