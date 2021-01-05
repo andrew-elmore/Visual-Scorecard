@@ -143,5 +143,20 @@ The current scores are displayed on the screen using a Scorecard component, and 
 
 ## Review
 
+At any time a user can look back and review their previous games. AXIOS is used to fetch all completed games beloing to the user from Airtable. Those previous games are displayed using a Scorecard component and a Map component. 
+
+```javascript
+export const getAllGames = async () => {
+    const email = await AsyncStorage.getItem('visualScorecardUser')
+    const res = await axiosAirtable.get(`/scores?filterByFormula=AND({complete}='true' {user}=${email})`)
+    if (res.data.records.length > 0) {
+        let results = res.data.records.map((record) => {return record.id})
+        return results
+    } else {
+        return null
+    }
+}
+```
+
 <img src="assets/Review.gif" alt="Review" height="500"/>
 
