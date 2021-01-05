@@ -57,5 +57,5 @@ const signup = (dispatch) =>  async({email, password}) => {
 
 ## Review
 
-<img src="assets/Review.png" alt="Review" height="500"/>
+<img src="assets/Review.gif" alt="Review" height="500"/>
 
