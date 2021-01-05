@@ -15,11 +15,6 @@ const reducer = (state, action) => {
         case 'yards': // updatesYards
             currentState.yards[action.payload.hole] = action.payload.newYards
             return { ...state, yards: currentState.yards }
-        case 'setDefault':
-            return ({
-                par: { '1': 4, '2': 4, '3': 4, '4': 4, '5': 4, '6': 4, '7': 4, '8': 4, '9': 4,},
-                yards: { '1': 400, '2': 400, '3': 400, '4': 400, '5': 400, '6': 400, '7': 400, '8': 400, '9': 400,}
-            })
         default:
             return state
     }

@@ -73,7 +73,8 @@ export const updateGameDetails = async (data) => {
 }
 
 export const getAllGames = async () => {
-    const res = await axiosAirtable.get(`/scores?filterByFormula={complete}='true'`)
+    const email = await AsyncStorage.getItem('visualScorecardUser')
+    const res = await axiosAirtable.get(`/scores?filterByFormula=AND({complete}='true' {user}=${email})`)
     if (res.data.records.length > 0) {
         let results = res.data.records.map((record) => {return record.id})
         return results

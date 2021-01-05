@@ -22,7 +22,6 @@ const reducer = (state, action) => {
         case 'finishGame':
             currentState.complete = true
             updateGameDetails({id: action.payload.gameId, fields: currentState})
-            console.log(state)
             return { ...state, complete: true }
         case 'recordShot': // records a shot and updates the database
             currentState.shots[state.hole].push(action.payload.pos)
