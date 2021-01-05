@@ -44,6 +44,7 @@ const signup = (dispatch) =>  async({email, password}) => {
 ## New Game
 
 ![newGame](assets/New_Game.png =250x)
+<img src="assets/New_Game.png" alt="newGame" height="100"/>
 
 ## New Course
 
