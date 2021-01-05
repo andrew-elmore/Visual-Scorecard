@@ -48,11 +48,15 @@ const signup = (dispatch) =>  async({email, password}) => {
 ## New Course
 
 ![newCourse](assets/New_Course.png =250x)
+<img src="assets/New_Course.png" alt="newCourse" height="500"/>
+
 
 ## Play
 
-![play](assets/Game.png =250x)
+<img src="assets/Game.png" alt="play" height="500"/>
+
 
 ## Review
 
-![review](assets/Review.gif =250x)
+<img src="assets/Review.png" alt="Review" height="500"/>
+
