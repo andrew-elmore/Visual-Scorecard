@@ -52,15 +52,16 @@ If they decide to create a new course, they will be prompted to enter the name o
 <img src="assets/New_Course.png" alt="newCourse" height="500"/>
 
 The par and yards information is stored using the useReducer hook. 
-```
+
+```javascript
 const reducer = (state, action) => {
     Object.freeze(state)
     let currentState = Object.assign({}, state)
     switch (action.type) {
-        case 'par': // updatesPar
+        case 'par': // updates par
             currentState.par[action.payload.hole] = action.payload.newPar
             return { ...state, par: currentState.par }
-        case 'yards': // updatesYards
+        case 'yards': // updates yards
             currentState.yards[action.payload.hole] = action.payload.newYards
             return { ...state, yards: currentState.yards }
         default:
@@ -71,7 +72,46 @@ const reducer = (state, action) => {
 
 ## Play
 
-Once a player has selected or created a course they can start the game. 
+Once a player has selected or created a course they can start the game. Once again the useReducer hook is used to to track information on the score, the current hole and the GPS coords of each shot. 
+
+```javascript
+const reducer = (state, action) => {
+    Object.freeze(state)
+    let currentState = Object.assign({}, state)
+    switch (action.type) {
+        case 'makeStroke': // carries stroke actions
+            currentState.score[state.hole] += 1
+
+            return { ...state, score: currentState.score }
+        case 'endHole': // does not update score or record a shot
+            currentState.score[state.hole + 1] = 0
+            currentState.shots[state.hole + 1] = []
+            return { ...state, score: currentState.score, shots: currentState.shots , hole: state.hole + 1 }
+        case 'finishGame':
+            currentState.complete = true
+            updateGameDetails({id: action.payload.gameId, fields: currentState})
+            return { ...state, complete: true }
+        case 'recordShot': // records a shot and updates the database
+            currentState.shots[state.hole].push(action.payload.pos)
+            updateGameDetails({ id: action.payload.gameId, fields: currentState })
+            return { ...state, shots: currentState.shots}
+        case 'seeState':
+        default:
+            return state
+    }
+}
+```
+
+Location is 
+
+```javascript
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+            dispatch({ type: 'recordShot', payload: {pos: pos, gameId: gameId} })
+        }
+    );
+```
+
 
 <img src="assets/Game.png" alt="play" height="500"/>
 
