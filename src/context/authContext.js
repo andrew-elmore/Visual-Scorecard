@@ -21,7 +21,7 @@ const tryLocalSignin = (dispatch) => async() => {
     if (token){
         const email = await AsyncStorage.getItem('visualScorecardUser')
         dispatch({ type: 'login', payload: { token, email } })
-        navigate('HomeScreen')
+        navigate('Home')
     } else {
         navigate('SignupScreen')
     }
@@ -34,7 +34,7 @@ const signup = (dispatch) =>  async({email, password}) => {
         await AsyncStorage.setItem('token', token);
         await AsyncStorage.setItem('visualScorecardUser', email);
         dispatch({ type: 'login', payload: { token, email }})
-        navigate('HomeScreen')
+        navigate('Home')
     } catch(err) {
         dispatch({ type: 'add_error', payload: err.response.data })
     }
@@ -48,7 +48,7 @@ const signin = (dispatch) => async ({ email, password }) => {
         await AsyncStorage.setItem('token', token);
         await AsyncStorage.setItem('visualScorecardUser', email);
         dispatch({ type: 'login', payload: {token, email} })
-        navigate('HomeScreen')
+        navigate('Home')
     } catch (err) {
         dispatch({ type: 'add_error', payload: err.response.data })
     }

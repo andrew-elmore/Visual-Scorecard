@@ -23,7 +23,7 @@ const NewGameScreen = (props) => {
                     color='rgb(255, 255, 255)'
                     title='Create New Course'
                     onPress={async () => {
-                        props.navigation.navigate('NewCourseScreen', { gameId: gameId})
+                        props.navigation.navigate('Course', { gameId: gameId})
                     }}
                 />
             </View>

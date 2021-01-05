@@ -25,6 +25,7 @@ export const createGame = async (strict) => {
 
 export const getIncompleteGame = async () => {
     const res = await axiosAirtable.get(`/scores?filterByFormula={complete}='false'`)
+    console.log(res.data.records)
     if (res.data.records.length > 0){
         let results = res.data.records[0].id
         return results

@@ -25,7 +25,7 @@ const HomeScreen = (props) => {
                         props.navigation.navigate('CasualScreen', { gameId: gameId, game: game})
                     } else {
                         const newGameId = await createGame(false)
-                        props.navigation.navigate('NewGameScreen', { gameId: newGameId })
+                        props.navigation.navigate('New', { gameId: newGameId })
                     }
                 }}
             />

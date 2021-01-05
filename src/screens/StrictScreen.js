@@ -57,7 +57,7 @@ const renderGameDetails = (game, state, location, gameId, props) => {
             </View>
         )
     } else {
-        props.navigation.navigate('NewGameScreen', { gameId: gameId })
+        props.navigation.navigate('New', { gameId: gameId })
         return (<Text>Please Wait For Game To Load</Text>)
     }
 }
@@ -125,7 +125,7 @@ const StrictScreen = (props) => {
                         onPress={() => {
                             if (state.hole === 9) {
                                 dispatch({ type: 'finishGame', payload: { gameId: gameId } })
-                                props.navigation.navigate('NineteenthHole', { lastGame: state })
+                                props.navigation.navigate('Review', { lastGame: state })
                             } else {
                                 dispatch({ type: 'endHole', payload: { gameId: gameId } })
                             }

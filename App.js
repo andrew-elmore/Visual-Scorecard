@@ -25,14 +25,14 @@ const switchNavigator = createSwitchNavigator({
     SignupScreen: SignupScreen
   }),
   mainFlow: createBottomTabNavigator({
-    HomeScreen: HomeScreen,
-    NineteenthHole: NineteenthHole,
-    AccountScreen: AccountScreen
+    Home: HomeScreen,
+    Review: NineteenthHole,
+    Account: AccountScreen
   }),
   gameFlow: createSwitchNavigator({
     newGameFlow: createStackNavigator({
-      NewGameScreen: NewGameScreen,
-      NewCourseScreen: NewCourseScreen
+      New: NewGameScreen,
+      Course: NewCourseScreen
     }),
     playFlow: createSwitchNavigator({
       StrictScreen: StrictScreen,
