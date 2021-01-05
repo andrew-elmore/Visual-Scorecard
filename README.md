@@ -102,7 +102,7 @@ const reducer = (state, action) => {
 }
 ```
 
-Location is 
+Location is retrived using navigator.geolocation function. 
 
 ```javascript
     navigator.geolocation.getCurrentPosition(
@@ -112,8 +112,33 @@ Location is
     );
 ```
 
+Once a hole is complete the user should press the "In" button which will prompt the user to comfirm finishing the hole using an alert. If they confrim the hole will be incremented. 
+
+```javascript
+const confirmEndHole = (state, dispatch, props, gameId) => {
+    Alert.alert(
+        'End Hole?',
+        'Would you like to end this hole?',
+        [
+            { text: 'yes', onPress: () => {
+                if (state.hole === 9) {
+                    dispatch({ type: 'finishGame', payload: { gameId: gameId } })
+                    props.navigation.navigate('Review', { lastGame: state })
+                } else {
+                    dispatch({ type: 'endHole', payload: { gameId: gameId } })
+                }
+            }},
+            {text: 'no', onPress: () => {}, style: 'cancel'}
+        ]
+    )
+
+}
+```
+
 
 <img src="assets/Game.png" alt="play" height="500"/>
+
+The current scores are displayed on the screen using a Scorecard component, and the map is rendered using a Map component. 
 
 
 ## Review
