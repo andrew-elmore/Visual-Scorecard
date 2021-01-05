@@ -41,16 +41,37 @@ const signup = (dispatch) =>  async({email, password}) => {
 ```
 
 
-## New Game
+## New Game & New Course
+
+Once signed in a user may start a new game. They will be able to choose from any course that has already been played by clicking on that course, or they may create their own coures by clicking the Create New Course button. 
 
 <img src="assets/New_Game.png" alt="newGame" height="500"/>
 
-## New Course
+If they decide to create a new course, they will be prompted to enter the name of the course and the par and yards of each hole on the course. This new course will then be saved to Airtable for any player to play from. 
 
 <img src="assets/New_Course.png" alt="newCourse" height="500"/>
 
+The par and yards information is stored using the useReducer hook. 
+```
+const reducer = (state, action) => {
+    Object.freeze(state)
+    let currentState = Object.assign({}, state)
+    switch (action.type) {
+        case 'par': // updatesPar
+            currentState.par[action.payload.hole] = action.payload.newPar
+            return { ...state, par: currentState.par }
+        case 'yards': // updatesYards
+            currentState.yards[action.payload.hole] = action.payload.newYards
+            return { ...state, yards: currentState.yards }
+        default:
+            return state
+    }
+}
+```
 
 ## Play
+
+Once a player has selected or created a course they can start the game. 
 
 <img src="assets/Game.png" alt="play" height="500"/>
 
