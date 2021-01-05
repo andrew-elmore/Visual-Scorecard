@@ -8,7 +8,7 @@ Visual Scorecard is a golf scorecard app which tracks score and adds the posisti
 
 When a user opens the app they can either login or sign up. To login a user must press the login button and enter their credentials, or press the demo login button. Once logged in their session is saved with a session token and their email in AsyncStorage. 
 
-```
+```javascript
 const signin = (dispatch) => async ({ email, password }) => {
     try {
         const response = await axiosInstance.post('/signin', { email, password })
@@ -25,7 +25,7 @@ const signin = (dispatch) => async ({ email, password }) => {
 
 If a user wishes to create an account they must enter their email and a password. They are then logged in and a a session token and their email is saved in AsyncStorage
 
-```
+```javascript
 const signup = (dispatch) =>  async({email, password}) => {
     try {
         const response = await axiosInstance.post('/signup', {email, password})
