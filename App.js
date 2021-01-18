@@ -15,6 +15,7 @@ import SigninScreen from "./src/screens/SigninScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import AccountScreen from "./src/screens/AccountScreen";
 import LandingScreen from "./src/screens/LandingScreen";
+import DemoScreen from "./src/screens/DemoScreen";
 
 
 import { Dimensions } from 'react-native';
@@ -39,7 +40,8 @@ const switchNavigator = createSwitchNavigator({
     }),
     playFlow: createSwitchNavigator({
       StrictScreen: StrictScreen,
-      CasualScreen: CasualScreen
+      CasualScreen: CasualScreen,
+      DemoScreen: DemoScreen
     })
   })
 });

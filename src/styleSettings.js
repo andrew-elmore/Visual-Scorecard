@@ -2,7 +2,7 @@ import { Dimensions } from 'react-native';
 
 export default {
     background: {
-        // backgroundColor: 'rgb(190, 247, 124)',
+        backgroundColor: 'lightgrey',
         paddingTop: 10,
         height: Dimensions.get("window").height,
     },

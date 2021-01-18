@@ -43,12 +43,29 @@ const HomeScreen = (props) => {
                         props.navigation.navigate('StrictScreen', { gameId: gameId, game: game})
                     } else {
                         const newGameId = await createGame(true)
-                        props.navigation.navigate('NewGameScreen', { gameId: newGameId })
+                        props.navigation.navigate('New', { gameId: newGameId })
                     }
                 }}
             />
             </View>
             <Spacer />
+            {/* <View style={styles.shadowButtonContainer}>
+            <Button
+                color='rgb(255, 255, 255)'
+                title='Demo Game'
+                onPress={async() => { 
+                    const gameId = await getIncompleteGame()
+                    if (gameId){
+                        const game = await fetchGameDetails(gameId)
+                        props.navigation.navigate('DemoScreen', { gameId: gameId, game: game})
+                    } else {
+                        const newGameId = await createGame(false)
+                        props.navigation.navigate('New', { gameId: newGameId })
+                    }
+                }}
+            />
+            </View>
+            <Spacer /> */}
         </ImageBackground>
     )
 }

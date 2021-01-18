@@ -47,6 +47,7 @@ const renderGameDetails = (game) => {
     if(game.id){
         let shots = game.fields.shots
         let location = findCenter(shots)
+        console.log(location)
         return (
             <View>
                 <Text>{game.fields.course.toString()}</Text>
