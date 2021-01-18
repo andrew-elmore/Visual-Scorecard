@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
+import { Text, View, StyleSheet, Button, FlatList, ImageBackground  } from 'react-native';
 import { Context as AuthContext } from './../context/authContext'
 import Spacer from './../component/spacer'
 import styleSettings from './../styleSettings'
@@ -7,7 +7,7 @@ import styleSettings from './../styleSettings'
 const AccountScreen = () => {
     const {  signout } = useContext(AuthContext)
     return (
-        <View style={styles.background}>
+        <ImageBackground source={require('./../../assets/course.png')} style={styleSettings.background}>
             <Spacer/>
             <View style={styles.buttonContainer}>
                 <Button
@@ -16,7 +16,7 @@ const AccountScreen = () => {
                     onPress={() => signout()}
                 />
             </View>
-        </View>
+        </ImageBackground>
     )
 }
 

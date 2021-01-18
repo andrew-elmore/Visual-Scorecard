@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Button, FlatList, Dimensions, ImageBackground } from 'react-native';
 import { createGame, getIncompleteGame, fetchGameDetails } from './../api/scores'
 import Spacer from './../component/spacer'
 import styleSettings from './../styleSettings'
@@ -10,11 +10,12 @@ const HomeScreen = (props) => {
 
 
     return (
-        <View style={styles.background}>
+        <ImageBackground source={require('./../../assets/course.png')} style={styleSettings.background}>    
+
             <Spacer/>
-            <Text>Visual Scorecard</Text>
+            <Text style={styleSettings.heading}>Visual Scorecard</Text>
             <Spacer/>
-            <View style={styles.buttonContainer}>
+            <View style={styles.shadowButtonContainer}>
             <Button
                 color='rgb(255, 255, 255)'
                 title='Casual Game'
@@ -31,7 +32,7 @@ const HomeScreen = (props) => {
             />
             </View>
             <Spacer/>
-            <View style={styles.buttonContainer}>
+            <View style={styles.shadowButtonContainer}>
             <Button
                 color='rgb(255, 255, 255)'
                 title='Strict Game'
@@ -48,7 +49,7 @@ const HomeScreen = (props) => {
             />
             </View>
             <Spacer />
-        </View>
+        </ImageBackground>
     )
 }
 

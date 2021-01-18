@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Button, FlatList, Dimensions, ImageBackground } from 'react-native';
 import { getCourses } from '../api/courses'
 import { updateGameDetails, fetchGameDetails } from '../api/scores'
 import styleSettings from './../styleSettings'
+import Spacer from './../component/spacer'
 
 
 
@@ -17,8 +18,8 @@ const NewGameScreen = (props) => {
     }
     const gameId = props.navigation.state.params.gameId
     return (
-        <View style={styles.background}>
-            <View style={styles.buttonContainer}>
+        <ImageBackground source={require('./../../assets/course.png')} style={styleSettings.background}> 
+            <View style={styles.shadowButtonContainer}>
                 <Button
                     color='rgb(255, 255, 255)'
                     title='Create New Course'
@@ -27,7 +28,7 @@ const NewGameScreen = (props) => {
                     }}
                 />
             </View>
-
+            <Spacer />
             <FlatList
                 keyExtractor={item => {
                     return item.name.toString()
@@ -36,27 +37,30 @@ const NewGameScreen = (props) => {
                 renderItem={({ item, index }) => {
                     let course = item
                     return (
-                    <View style={styles.buttonContainer}>
-                    <Button
-                        color='rgb(255, 255, 255)'
-                        title={course.name}
-                        onPress={async () => {
-                            const game = await fetchGameDetails(gameId)
-                            game.fields.course = course.name
-                            game.fields.holes = course.holes
-                            await updateGameDetails(game)
-                            if (game.fields.strict) {
-                                props.navigation.navigate('StrictScreen', { gameId: game.id, game: game })
-                            } else {
-                                props.navigation.navigate('CasualScreen', { gameId: game.id, game: game })
-                            }
-                        }}
-                    />
+                    <View>
+                            <View style={styles.shadowButtonContainer}>
+                        <Button
+                            color='rgb(255, 255, 255)'
+                            title={course.name}
+                            onPress={async () => {
+                                const game = await fetchGameDetails(gameId)
+                                game.fields.course = course.name
+                                game.fields.holes = course.holes
+                                await updateGameDetails(game)
+                                if (game.fields.strict) {
+                                    props.navigation.navigate('StrictScreen', { gameId: game.id, game: game })
+                                } else {
+                                    props.navigation.navigate('CasualScreen', { gameId: game.id, game: game })
+                                }
+                            }}
+                        />
+                        </View>
+                        <Spacer />
                     </View>
                     )
                 }}
             />
-        </View>
+        </ImageBackground>
     )
 }
 

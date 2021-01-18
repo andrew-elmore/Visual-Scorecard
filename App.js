@@ -17,6 +17,9 @@ import AccountScreen from "./src/screens/AccountScreen";
 import LandingScreen from "./src/screens/LandingScreen";
 
 
+import { Dimensions } from 'react-native';
+
+
 
 const switchNavigator = createSwitchNavigator({
   LandingScreen: LandingScreen,
@@ -45,8 +48,10 @@ const App = createAppContainer(switchNavigator);
 
 export default () => {
   return (
-    <AuthProvider>
-      <App ref={(navigator) => { setNavigator(navigator) }} />
-    </AuthProvider>
+  
+      <AuthProvider>
+        <App ref={(navigator) => { setNavigator(navigator) }} />
+      </AuthProvider>
+
   )
 }

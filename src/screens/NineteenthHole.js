@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Button, FlatList, Dimensions, ImageBackground  } from 'react-native';
 import { getAllGames, fetchGameDetails } from '../api/scores'
 import Map from './../component/map'
 import Scorecard from './../component/scorecard'
@@ -83,7 +83,7 @@ const NineteenthHole = (props) => {
 
 
     return (
-        <View style={styles.background}>
+        <ImageBackground source={require('./../../assets/course.png')} style={styleSettings.background}> 
             <Spacer/>
             <View style={styles.buttonContainer}>
             <Button 
@@ -114,7 +114,7 @@ const NineteenthHole = (props) => {
             </View>
             {renderGameDetails(game)}
             <Text>This was a {strictness()} game.</Text>
-        </View>
+        </ImageBackground>
     )
 }
 

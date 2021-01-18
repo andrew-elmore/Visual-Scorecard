@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, FlatList, Button } from 'react-native';
+import { View, StyleSheet, FlatList, Button, ImageBackground  } from 'react-native';
 import { Text, Input } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Context as AuthContext } from './../context/authContext'
@@ -15,28 +15,35 @@ const SigninScreen = (props) => {
 
     
     return (
-        <View style={styles.background}>
+        <ImageBackground source={require('./../../assets/course.png')} style={styleSettings.background}>
             <Spacer/>
             <Text h3>Sign In</Text>
             <Spacer/>
+            <View style={styleSettings.inputShadow}>
+            <Spacer />
             <Input
-                label="Email"
+                label="Email:"
                 value={email}
                 onChangeText={setEmail}
                 autoCapitalize="none"
                 autoCorrect={false}
+                inputStyle={{color: 'black', backgroundColor: 'lightgrey'}}
+                labelStyle={{color: 'black', fontSize: 20}}
             />
             <Input
-                label="Password"
+                label="Password:"
                 value={password}
                 onChangeText={setPassword}
                 autoCapitalize="none"
                 autoCorrect={false}
                 secureTextEntry
+                inputStyle={{ color: 'black', backgroundColor: 'lightgrey' }}
+                labelStyle={{ color: 'black', fontSize: 20 }}
             />
             <Text>{state.errorMessage}</Text>
+            </View>
             <Spacer />
-            <View style={styles.buttonContainer}>
+            <View style={styles.shadowButtonContainer}>
             <Button
                 color="white"
                 title="Sign In"
@@ -46,7 +53,7 @@ const SigninScreen = (props) => {
 
             <Spacer />
 
-            <View style={styles.buttonContainer}>
+            <View style={styles.shadowButtonContainer}>
             <Button
                 color="white"
                 title="Demo Sign In"
@@ -57,9 +64,9 @@ const SigninScreen = (props) => {
             <Spacer />
             
             <TouchableOpacity onPress={() => props.navigation.navigate('SignupScreen')}>
-                <Text>Don't have an account? Sign up here.</Text>
+                <Text style={{ fontSize: 20 }}>Don't have an account? Sign up here.</Text>
             </TouchableOpacity>
-        </View>
+        </ImageBackground>
     )
 }
 

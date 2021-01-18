@@ -2,7 +2,7 @@ import { Dimensions } from 'react-native';
 
 export default {
     background: {
-        backgroundColor: 'rgb(190, 247, 124)',
+        // backgroundColor: 'rgb(190, 247, 124)',
         paddingTop: 10,
         height: Dimensions.get("window").height,
     },
@@ -14,11 +14,45 @@ export default {
         borderStyle: 'solid',
         borderWidth: 1
     },
+    heading: {
+        fontSize: 30,
+        textAlign: 'center',
+        fontWeight: 'bold'
+    },
     buttonContainer: {
         backgroundColor: 'rgb(54, 125, 0)',
         borderRadius: 10,
         margin: 1,
+    },
+    shadowButtonContainer: {
+        backgroundColor: 'rgb(54, 125, 0)',
+        borderRadius: 10,
+        margin: 1,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 1,
+            height: 5,
+        },
+        shadowOpacity: 0.75,
+        shadowRadius: 16.00,
 
+        elevation: 24,
+    },
+
+    inputShadow: {
+        backgroundColor: 'lightgrey',
+        borderRadius: 10,
+        margin: 1,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 1,
+            height: 5,
+        },
+        shadowOpacity: 0.75,
+        shadowRadius: 16.00,
+
+        elevation: 24,
+        
     },
     lines: {
         marginEnd: 20

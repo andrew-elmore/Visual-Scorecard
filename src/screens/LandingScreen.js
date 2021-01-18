@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useContext, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, FlatList } from 'react-native';
+import { Text, View, StyleSheet, Button, FlatList, ImageBackground  } from 'react-native';
 import { Context as AuthContext } from './../context/authContext'
 
 const LandingScreen = (props) => {

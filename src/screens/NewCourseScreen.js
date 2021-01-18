@@ -1,8 +1,9 @@
 import React, { useState, useReducer } from 'react';
-import { Text, View, StyleSheet, Button, TouchableOpacity, FlatList, TextInput, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Button, TouchableOpacity, FlatList, TextInput, ImageBackground, Dimensions } from 'react-native';
 import { updateGameDetails, fetchGameDetails } from '../api/scores'
 import { createCourse } from '../api/courses'
 import styleSettings from './../styleSettings'
+import Spacer from './../component/spacer'
 
 
 const reducer = (state, action) => {
@@ -38,14 +39,7 @@ const NewCourseScreen = (props) => {
     }
 
     return (
-        <View style={styles.background}>
-            <TextInput
-                style={styles.courseInput}
-                autoCapitalize='words'
-                autoCorrect={false}
-                value={courseName}
-                onChangeText={(newValue) => { setCourseName(newValue) }}
-            />
+        <ImageBackground source={require('./../../assets/course.png')} style={styleSettings.background}>
             <View style={styles.buttonContainer}>
             <Button
                 color='rgb(255, 255, 255)'
@@ -64,6 +58,15 @@ const NewCourseScreen = (props) => {
                 }}
             />
             </View>
+            <Spacer />
+            <TextInput
+                style={styles.courseInput}
+                autoCapitalize='words'
+                autoCorrect={false}
+                value={courseName}
+                onChangeText={(newValue) => { setCourseName(newValue) }}
+            />
+            <Spacer />
 
             <FlatList 
                 keyExtractor={hole => {
@@ -111,7 +114,7 @@ const NewCourseScreen = (props) => {
             />
             
             
-        </View>
+        </ImageBackground>
     )
 }
 

@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from 'react';
-import { Text, View, StyleSheet, Button, FlatList, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Button, FlatList, Dimensions, ImageBackground } from 'react-native';
 import { updateGameDetails, fetchGameDetails } from './../api/scores'
 import Map from './../component/map'
 import Scorecard from './../component/scorecard'
@@ -106,8 +106,8 @@ const StrictScreen = (props) => {
 
 
     return (
-        <View style={styles.background}>
-            <Text style={{ fontSize: 15, textAlign: "center" }}>{`You are playing at ${state.course}`}</Text>
+        <ImageBackground source={require('./../../assets/course.png')} style={styleSettings.background}>
+            <Text style={{ fontSize: 20, textAlign: "center", marginBottom: 5 }}>{`You are playing at ${state.course}`}</Text>
             <View >
                 <View style={styles.buttonContainer}>
                     <Button
@@ -144,7 +144,7 @@ const StrictScreen = (props) => {
             </View>
 
             {renderGameDetails(game, state, location, gameId, props)}
-        </View>
+        </ImageBackground>
     )
 }
 
