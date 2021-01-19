@@ -41,7 +41,7 @@ const switchNavigator = createSwitchNavigator({
     playFlow: createSwitchNavigator({
       StrictScreen: StrictScreen,
       CasualScreen: CasualScreen,
-      DemoScreen: DemoScreen
+      // CasualScreen: DemoScreen
     })
   })
 });

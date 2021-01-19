@@ -1,5 +1,7 @@
 import { Dimensions } from 'react-native';
 
+const contentWidth = Dimensions.get("window").width/5
+
 export default {
     background: {
         backgroundColor: 'lightgrey',
@@ -12,7 +14,12 @@ export default {
         flexDirection: 'row',
         padding: 0,
         borderStyle: 'solid',
-        borderWidth: 1
+        borderWidth: 1,
+    },
+    totalScore: {
+        backgroundColor: 'lightgrey',
+        borderStyle: 'solid',
+        borderWidth: 1,
     },
     heading: {
         fontSize: 30,
@@ -77,5 +84,25 @@ export default {
     map: {
         height: 269,
         width: 400
-    }
+    },
+
+    shadow:{
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 1,
+            height: 5,
+        },
+        shadowOpacity: 0.75,
+        shadowRadius: 16.00,
+
+        elevation: 24,
+
+    },
+    hole: { minWidth: contentWidth, maxWidth: contentWidth, borderLeftColor: "grey", borderLeftWidth: 1, paddingLeft: 10},
+    par: { minWidth: contentWidth, maxWidth: contentWidth, borderLeftColor: "grey", borderLeftWidth: 1, paddingLeft: 10},
+    yards: { minWidth: contentWidth, maxWidth: contentWidth, borderLeftColor: "grey", borderLeftWidth: 1, paddingLeft: 10},
+    score: { minWidth: contentWidth, maxWidth: contentWidth, borderLeftColor: "grey", borderLeftWidth: 1, paddingLeft: 10},
+    overUnder: { minWidth: contentWidth, maxWidth: contentWidth, borderLeftColor: "grey", borderLeftWidth: 1, paddingLeft: 10},
+    
 }
+

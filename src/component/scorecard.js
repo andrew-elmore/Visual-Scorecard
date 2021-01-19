@@ -8,7 +8,7 @@ const Scorecard = (props) => {
     gameScore = props.gameScore
 
     return (
-        <View>
+        <View >
             <FlatList
                 keyExtractor={item => {
                     return item[0].toString()
@@ -24,9 +24,18 @@ const Scorecard = (props) => {
                         score = gameScore.score[hole]
                         overUnder = parseInt(gameScore.score[hole]) - parseInt(par)
                     }
-                    return (<Text style={styles.contents}>{`${hole} : ${par} : ${yards} : ${score} : ${overUnder}`}</Text>)
+                    return (
+                    <View style={styles.contents}>
+                        <View style={styles.hole}><Text >{hole}</Text></View>
+                        <View style={styles.par}><Text >{par}</Text></View>
+                        <View style={styles.yards}><Text >{yards}</Text></View>
+                        <View style={styles.score}><Text >{score}</Text></View>
+                        <View style={styles.overUnder}><Text >{overUnder}</Text></View>
+                    </View>
+                    )
                 }}
             />
+            <View style={styles.totalScore} >
             <Text >Total Score: {
                 Object.values(game.holes.par).reduce((a, b) => {
                     return parseInt(a) + parseInt(b)
@@ -37,6 +46,7 @@ const Scorecard = (props) => {
                     return a + b
                 })
             }</Text>
+        </View>
         </View>
     )
 }
