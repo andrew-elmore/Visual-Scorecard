@@ -45,7 +45,7 @@ const signup = (dispatch) =>  async({email, password}) => {
 
 Once signed in a user may start a new game. They will be able to choose from any course that has already been played by clicking on that course, or they may create their own coures by clicking the Create New Course button. 
 
-<img src="assets/New_Game.png" alt="newGame" height="500"/>
+<img src="assets/IMG_0940.PNG" alt="newGame" height="500"/>
 
 If they decide to create a new course, they will be prompted to enter the name of the course and the par and yards of each hole on the course. This new course will then be saved to Airtable for any player to play from. 
 
